@@ -9,6 +9,8 @@ import { geoCentroid } from 'd3-geo';
 import styled from 'styled-components';
 import Geonames from 'geonames.js';
 
+import Town from './Town';
+
 interface Feature {
   type: string;
   properties: {
@@ -45,32 +47,11 @@ const CT: FunctionComponent<CTProps> = ({ data }) => {
     >
       <Geographies geography={data.features}>
         {({ geographies }) =>
-          geographies.map((geo) => {
+          geographies.map((geo, i) => {
             const centroid = geoCentroid(geo);
 
             return (
-              <React.Fragment key={geo.rsmKey}>
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  fill={`black`}
-                  strokeWidth={0.003}
-                />
-                <StyledMarker coordinates={centroid}>
-                  <text
-                    fontSize={0.25}
-                    textAnchor="middle"
-                    style={{
-                      zIndex: 5,
-                      position: 'absolute',
-                      fill: 'white',
-                    }}
-                    onClick={() => console.log(geo.properties.town)}
-                  >
-                    {geo.properties.town}
-                  </text>
-                </StyledMarker>
-              </React.Fragment>
+              <Town geo={geo} key={geo.rsmKey} centroid={centroid} index={i} />
             );
           })
         }
