@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Marker, Geography, Point } from 'react-simple-maps';
-import { geoCentroid } from 'd3-geo';
 import styled from 'styled-components';
 import Geonames from 'geonames.js';
 
@@ -8,6 +7,7 @@ interface TownProps {
   centroid: Point;
   geo: any;
   index: number;
+  selectedTowns: number[];
 }
 
 const geonames = new Geonames({
@@ -16,20 +16,26 @@ const geonames = new Geonames({
   encoding: 'JSON',
 });
 
-const Town: FunctionComponent<TownProps> = ({ centroid, geo, index }) => {
+const Town: FunctionComponent<TownProps> = ({
+  centroid,
+  geo,
+  index,
+  selectedTowns,
+}) => {
   useEffect(() => {
-    if (index === 3) {
+    const isSelected = selectedTowns.find((town) => town === index);
+    async function findWikipedia() {
+      const wiki = await geonames.findNearbyWikipedia({
+        lat: centroid[1],
+        lng: centroid[0],
+      });
+      console.log('wiki', wiki);
+    }
+
+    if (isSelected) {
       findWikipedia();
     }
-  }, []);
-
-  async function findWikipedia() {
-    const wiki = await geonames.findNearbyWikipedia({
-      lat: centroid[1],
-      lng: centroid[0],
-    });
-    console.log('wiki', wiki);
-  }
+  }, [centroid, index, selectedTowns]);
 
   return (
     <React.Fragment key={geo.rsmKey}>

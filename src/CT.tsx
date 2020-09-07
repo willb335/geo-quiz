@@ -1,13 +1,6 @@
-import React, { FunctionComponent, useRef, useEffect } from 'react';
-import {
-  ComposableMap,
-  Geographies,
-  Marker,
-  Geography,
-} from 'react-simple-maps';
+import React, { FunctionComponent } from 'react';
+import { ComposableMap, Geographies, Marker } from 'react-simple-maps';
 import { geoCentroid } from 'd3-geo';
-import styled from 'styled-components';
-import Geonames from 'geonames.js';
 
 import Town from './Town';
 
@@ -27,15 +20,16 @@ interface CTProps {
   data: Data;
 }
 
-const geonames = new Geonames({
-  username: 'willb335',
-  lan: 'en',
-  encoding: 'JSON',
-});
 const width = 800;
 const height = 600;
 
 const CT: FunctionComponent<CTProps> = ({ data }) => {
+  const selectedTowns: number[] = [];
+  while (selectedTowns.length < 3) {
+    const r = Math.floor(Math.random() * 168) + 1;
+    if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
+  }
+  console.log('selectedTowns', selectedTowns);
   return (
     <ComposableMap
       projection="geoAlbersUsa"
@@ -51,7 +45,13 @@ const CT: FunctionComponent<CTProps> = ({ data }) => {
             const centroid = geoCentroid(geo);
 
             return (
-              <Town geo={geo} key={geo.rsmKey} centroid={centroid} index={i} />
+              <Town
+                geo={geo}
+                key={geo.rsmKey}
+                centroid={centroid}
+                index={i}
+                selectedTowns={selectedTowns}
+              />
             );
           })
         }
@@ -61,7 +61,3 @@ const CT: FunctionComponent<CTProps> = ({ data }) => {
 };
 
 export default CT;
-
-const StyledMarker = styled(Marker)`
-  z-index: 10;
-`;
