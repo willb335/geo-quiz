@@ -14,17 +14,21 @@ const Quiz = () => {
 
   async function getCities() {
     try {
-      const countries = await geonames.countryInfo({});
-      const states = await geonames.children({
-        geonameId: countries.geonames[232].geonameId,
+      const data = await geonames.countryInfo({ country: 'US' });
+      const unitedStates = data.geonames[0];
+
+      const countyData = await geonames.children({
+        geonameId: 4831725,
       });
-      const regions = await geonames.children({
-        geonameId: states.geonames[0].geonameId,
-      });
-      const cities = await geonames.children({
-        geonameId: regions.geonames[0].geonameId,
-      });
-      console.log(states);
+
+      const counties = countyData.geonames;
+
+      // for (const county of counties) {
+      //   const townData = await geonames.children({})
+      // }
+
+      console.log(unitedStates);
+      console.log(counties);
     } catch (err) {
       console.error(err);
     }

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useRef, useEffect } from 'react';
 import {
   ComposableMap,
   Geographies,
@@ -7,6 +7,7 @@ import {
 } from 'react-simple-maps';
 import { geoCentroid } from 'd3-geo';
 import styled from 'styled-components';
+import Geonames from 'geonames.js';
 
 interface Feature {
   type: string;
@@ -24,6 +25,11 @@ interface CTProps {
   data: Data;
 }
 
+const geonames = new Geonames({
+  username: 'willb335',
+  lan: 'en',
+  encoding: 'JSON',
+});
 const width = 800;
 const height = 600;
 
