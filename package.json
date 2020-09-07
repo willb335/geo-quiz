@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "d3-geo": "^2.0.1",
+    "geonames.js": "^2.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",

@@ -39,7 +39,7 @@ const CT: FunctionComponent<CTProps> = ({ data }) => {
     >
       <Geographies geography={data.features}>
         {({ geographies }) =>
-          geographies.map((geo, i) => {
+          geographies.map((geo) => {
             const centroid = geoCentroid(geo);
 
             return (
