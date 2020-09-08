@@ -1,8 +1,16 @@
 import React from 'react';
-import './App.css';
+
+import CT from './CT';
+import Quiz from './Quiz';
+import json from './CT.geo.json';
 
 function App() {
-  return <div className="App">Hello World!</div>;
+  return (
+    <React.Fragment>
+      <Quiz />
+      <CT data={json} />
+    </React.Fragment>
+  );
 }
 
 export default App;
