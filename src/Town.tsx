@@ -4,7 +4,7 @@ import React, {
   useEffect,
   SyntheticEvent,
 } from 'react';
-import { Marker, Geography, Point } from 'react-simple-maps';
+import { Marker, Geography, Point, Annotation } from 'react-simple-maps';
 import Geonames from 'geonames.js';
 
 interface TownProps {
@@ -51,14 +51,6 @@ const Town: FunctionComponent<TownProps> = ({
     }
 
     if (index === selectedTowns[finalSelection]) {
-      console.log(
-        'selectedTowns',
-        selectedTowns,
-        'finalSelection',
-        finalSelection,
-        'index',
-        index
-      );
       findWikipedia();
     }
   }, [centroid, finalSelection, index, isSelected, selectedTowns]);
@@ -99,20 +91,10 @@ const Town: FunctionComponent<TownProps> = ({
             strokeWidth={0.003}
           />
         )}
-
-        {/* <text
-          fontSize={0.25}
-          textAnchor="middle"
-          style={{
-            zIndex: 5,
-            position: 'absolute',
-            fill: 'white',
-          }}
-          onClick={() => console.log(geo.properties.town)}
-        >
-          {geo.properties.town}
-        </text> */}
       </Marker>
+      {/* {selectedTowns.includes(index) && (
+       
+      )} */}
     </React.Fragment>
   );
 };

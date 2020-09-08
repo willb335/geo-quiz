@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { ComposableMap, Geographies } from 'react-simple-maps';
+import { ComposableMap, Geographies, Annotation } from 'react-simple-maps';
 import { geoCentroid } from 'd3-geo';
 
 import Town from './Town';
@@ -58,6 +58,38 @@ const CT: FunctionComponent<CTProps> = ({ data }) => {
                 selectedTowns={selectedTowns}
                 finalSelection={finalSelection}
               />
+            );
+          })
+        }
+      </Geographies>
+      <Geographies geography={data.features}>
+        {({ geographies }) =>
+          geographies.map((geo, i) => {
+            const centroid = geoCentroid(geo);
+            return (
+              selectedTowns.includes(i) && (
+                <Annotation
+                  key={geo.rsmKey}
+                  subject={centroid}
+                  dx={-1}
+                  dy={-0.3}
+                  connectorProps={{
+                    stroke: 'black',
+                    strokeWidth: 0.04,
+                    strokeLinecap: 'round',
+                  }}
+                >
+                  <text
+                    y={-0.11}
+                    fontSize={0.3}
+                    textAnchor="middle"
+                    style={{ fill: 'black' }}
+                    onClick={() => console.log(geo.properties.town)}
+                  >
+                    {geo.properties.town}
+                  </text>
+                </Annotation>
+              )
             );
           })
         }
