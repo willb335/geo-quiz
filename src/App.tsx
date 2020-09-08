@@ -1,11 +1,17 @@
 import React from 'react';
 
 import CT from './CT';
+import Quiz from './Quiz';
 import './App.css';
-const json = require('./CT.geo.json');
+import json from './CT.geo.json';
 
 function App() {
-  return <CT data={json} />;
+  return (
+    <React.Fragment>
+      <Quiz />
+      <CT data={json} />
+    </React.Fragment>
+  );
 }
 
 export default App;

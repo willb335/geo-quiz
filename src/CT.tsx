@@ -22,14 +22,14 @@ interface CTProps {
 
 const width = 800;
 const height = 600;
+const SELECTED_TOWNS_LENGTH = 5;
 
 const CT: FunctionComponent<CTProps> = ({ data }) => {
   const selectedTowns: number[] = [];
-  while (selectedTowns.length < 3) {
+  while (selectedTowns.length < SELECTED_TOWNS_LENGTH) {
     const r = Math.floor(Math.random() * 168) + 1;
     if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
   }
-  console.log('selectedTowns', selectedTowns);
   return (
     <ComposableMap
       projection="geoAlbersUsa"
@@ -43,6 +43,9 @@ const CT: FunctionComponent<CTProps> = ({ data }) => {
         {({ geographies }) =>
           geographies.map((geo, i) => {
             const centroid = geoCentroid(geo);
+            function getRandomInt(max: number): number {
+              return Math.floor(Math.random() * Math.floor(max));
+            }
 
             return (
               <Town
@@ -51,6 +54,7 @@ const CT: FunctionComponent<CTProps> = ({ data }) => {
                 centroid={centroid}
                 index={i}
                 selectedTowns={selectedTowns}
+                finalSelection={getRandomInt(SELECTED_TOWNS_LENGTH)}
               />
             );
           })
