@@ -4,8 +4,10 @@ import React, {
   useEffect,
   SyntheticEvent,
 } from 'react';
-import { Marker, Geography, Point, Annotation } from 'react-simple-maps';
+import { Marker, Geography, Point } from 'react-simple-maps';
 import Geonames from 'geonames.js';
+import { PatternLines, PatternWaves, PatternCircles } from '@vx/pattern';
+import { PatternOrientationType } from '@vx/pattern/lib/constants';
 
 interface TownProps {
   centroid: Point;
@@ -15,20 +17,17 @@ interface TownProps {
   finalSelection: number;
 }
 
+type Orientation = 'diagonal' | 'horizontal' | 'vertical';
+
 const geonames = new Geonames({
   username: 'willb335',
   lan: 'en',
   encoding: 'JSON',
 });
 
-function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
+const patterns = ['wave', 'line', 'circle'];
+const orientations: Orientation[] = ['horizontal', 'vertical', 'diagonal'];
+const color = '#0C2D83';
 
 const Town: FunctionComponent<TownProps> = ({
   centroid,
@@ -38,7 +37,6 @@ const Town: FunctionComponent<TownProps> = ({
   finalSelection,
 }) => {
   const [markerSelected, setMarkerSelection] = useState(false);
-  const [townFill] = useState(getRandomColor());
   const isSelected = selectedTowns.includes(index);
 
   useEffect((): void => {
@@ -69,11 +67,15 @@ const Town: FunctionComponent<TownProps> = ({
       ? 'red'
       : 'white';
 
+  const pattern = patterns[Math.floor(Math.random() * patterns.length)];
+  const orientation: PatternOrientationType =
+    orientations[Math.floor(Math.random() * orientations.length)];
+
   return (
     <React.Fragment key={geo.rsmKey}>
       <Geography
         geography={geo}
-        fill={townFill}
+        fill={`url('#${index}-${pattern}')`}
         strokeWidth={0.01}
         style={{
           default: { outline: 'none' },
@@ -82,19 +84,43 @@ const Town: FunctionComponent<TownProps> = ({
         }}
         tabIndex={-1}
       />
+      <PatternLines
+        id={`${index}-line`}
+        height={0.05}
+        width={0.05}
+        stroke="white"
+        strokeWidth={0.005}
+        background={color}
+        orientation={[orientation]}
+      />
+
+      <PatternCircles
+        id={`${index}-circle`}
+        height={0.05}
+        width={0.05}
+        strokeWidth={0.005}
+        background={color}
+        radius={0.005}
+      />
+
+      <PatternWaves
+        id={`${index}-wave`}
+        height={0.05}
+        width={0.05}
+        stroke="white"
+        strokeWidth={0.005}
+        background={color}
+      />
       <Marker coordinates={centroid} onClick={(e) => handleMarkerClick(e)}>
         {isSelected && (
           <circle
             r={0.15}
             fill={markerFill()}
-            stroke="black"
+            stroke="#fff"
             strokeWidth={0.003}
           />
         )}
       </Marker>
-      {/* {selectedTowns.includes(index) && (
-       
-      )} */}
     </React.Fragment>
   );
 };

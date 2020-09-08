@@ -83,7 +83,7 @@ const CT: FunctionComponent<CTProps> = ({ data }) => {
                     y={-0.11}
                     fontSize={0.3}
                     textAnchor="middle"
-                    style={{ fill: 'black' }}
+                    style={{ fill: '#fff' }}
                     onClick={() => console.log(geo.properties.town)}
                   >
                     {geo.properties.town}
