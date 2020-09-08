@@ -3,21 +3,10 @@ import { ComposableMap, Geographies, Annotation } from 'react-simple-maps';
 import { geoCentroid } from 'd3-geo';
 
 import Town from './Town';
-
-interface Feature {
-  type: string;
-  properties: {
-    [key: string]: string;
-  };
-}
-
-interface Data {
-  type: string;
-  features: Feature[];
-}
+import json from './CT.geo.json';
 
 interface CTProps {
-  data: Data;
+  findWikipedia: Function;
 }
 
 const width = 800;
@@ -32,7 +21,7 @@ while (selectedTowns.length < SELECTED_TOWNS_LENGTH) {
   if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
 }
 
-const CT: FunctionComponent<CTProps> = ({ data }) => {
+const CT: FunctionComponent<CTProps> = ({ findWikipedia }) => {
   const [finalSelection] = useState(getRandomInt(SELECTED_TOWNS_LENGTH));
 
   return (
@@ -44,7 +33,7 @@ const CT: FunctionComponent<CTProps> = ({ data }) => {
       viewBox="640 219 25 25"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <Geographies geography={data.features}>
+      <Geographies geography={json.features}>
         {({ geographies }) =>
           geographies.map((geo, i) => {
             const centroid = geoCentroid(geo);
@@ -57,12 +46,13 @@ const CT: FunctionComponent<CTProps> = ({ data }) => {
                 index={i}
                 selectedTowns={selectedTowns}
                 finalSelection={finalSelection}
+                findWikipedia={findWikipedia}
               />
             );
           })
         }
       </Geographies>
-      <Geographies geography={data.features}>
+      <Geographies geography={json.features}>
         {({ geographies }) =>
           geographies.map((geo, i) => {
             const centroid = geoCentroid(geo);
@@ -74,7 +64,7 @@ const CT: FunctionComponent<CTProps> = ({ data }) => {
                   dx={-1}
                   dy={-0.3}
                   connectorProps={{
-                    stroke: 'black',
+                    stroke: '#fff',
                     strokeWidth: 0.04,
                     strokeLinecap: 'round',
                   }}

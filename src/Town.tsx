@@ -5,7 +5,6 @@ import React, {
   SyntheticEvent,
 } from 'react';
 import { Marker, Geography, Point } from 'react-simple-maps';
-import Geonames from 'geonames.js';
 import { PatternLines, PatternWaves, PatternCircles } from '@vx/pattern';
 import { PatternOrientationType } from '@vx/pattern/lib/constants';
 
@@ -15,15 +14,10 @@ interface TownProps {
   index: number;
   selectedTowns: number[];
   finalSelection: number;
+  findWikipedia: Function;
 }
 
 type Orientation = 'diagonal' | 'horizontal' | 'vertical';
-
-const geonames = new Geonames({
-  username: 'willb335',
-  lan: 'en',
-  encoding: 'JSON',
-});
 
 const patterns = ['wave', 'line', 'circle'];
 const orientations: Orientation[] = ['horizontal', 'vertical', 'diagonal'];
@@ -35,23 +29,23 @@ const Town: FunctionComponent<TownProps> = ({
   index,
   selectedTowns,
   finalSelection,
+  findWikipedia,
 }) => {
   const [markerSelected, setMarkerSelection] = useState(false);
   const isSelected = selectedTowns.includes(index);
 
   useEffect((): void => {
-    async function findWikipedia() {
-      const wiki = await geonames.findNearbyWikipedia({
-        lat: centroid[1],
-        lng: centroid[0],
-      });
-      console.log('wiki', wiki);
-    }
-
     if (index === selectedTowns[finalSelection]) {
-      findWikipedia();
+      findWikipedia(centroid);
     }
-  }, [centroid, finalSelection, index, isSelected, selectedTowns]);
+  }, [
+    centroid,
+    finalSelection,
+    findWikipedia,
+    index,
+    isSelected,
+    selectedTowns,
+  ]);
 
   function handleMarkerClick(e: SyntheticEvent): void {
     e.preventDefault();
