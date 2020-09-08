@@ -1,6 +1,10 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, {
+  FunctionComponent,
+  useState,
+  useEffect,
+  SyntheticEvent,
+} from 'react';
 import { Marker, Geography, Point } from 'react-simple-maps';
-import styled from 'styled-components';
 import Geonames from 'geonames.js';
 
 interface TownProps {
@@ -47,24 +51,50 @@ const Town: FunctionComponent<TownProps> = ({
     }
 
     if (index === selectedTowns[finalSelection]) {
+      console.log(
+        'selectedTowns',
+        selectedTowns,
+        'finalSelection',
+        finalSelection,
+        'index',
+        index
+      );
       findWikipedia();
     }
   }, [centroid, finalSelection, index, isSelected, selectedTowns]);
 
-  function handleMarkerClick(): void {
+  function handleMarkerClick(e: SyntheticEvent): void {
+    e.preventDefault();
     if (selectedTowns.includes(index)) {
       setMarkerSelection(true);
     }
   }
 
+  const markerFill = () =>
+    markerSelected && selectedTowns[finalSelection] === index
+      ? 'green'
+      : markerSelected
+      ? 'red'
+      : 'white';
+
   return (
     <React.Fragment key={geo.rsmKey}>
-      <Geography geography={geo} fill={townFill} strokeWidth={0.01} />
-      <Marker coordinates={centroid} onClick={handleMarkerClick}>
+      <Geography
+        geography={geo}
+        fill={townFill}
+        strokeWidth={0.01}
+        style={{
+          default: { outline: 'none' },
+          hover: { outline: 'none' },
+          pressed: { outline: 'none' },
+        }}
+        tabIndex={-1}
+      />
+      <Marker coordinates={centroid} onClick={(e) => handleMarkerClick(e)}>
         {isSelected && (
           <circle
             r={0.15}
-            fill={markerSelected ? 'red' : 'white'}
+            fill={markerFill()}
             stroke="black"
             strokeWidth={0.003}
           />
@@ -88,7 +118,3 @@ const Town: FunctionComponent<TownProps> = ({
 };
 
 export default Town;
-
-const StyledMarker = styled(Marker)`
-  z-index: 10;
-`;
