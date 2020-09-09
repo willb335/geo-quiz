@@ -65,7 +65,7 @@ const CT: FunctionComponent<CTProps> = ({ findWikipedia }) => {
                   dy={-0.3}
                   connectorProps={{
                     stroke: '#fff',
-                    strokeWidth: 0.04,
+                    strokeWidth: 0.02,
                     strokeLinecap: 'round',
                   }}
                 >

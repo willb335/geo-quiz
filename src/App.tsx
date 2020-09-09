@@ -42,6 +42,9 @@ function reducer(state: State, action: Action): State {
       return { status: 'success', currentWikis: action.results };
     case 'failure':
       return { status: 'error', error: action.error };
+    default: {
+      return { status: 'empty' };
+    }
   }
 }
 
@@ -53,9 +56,7 @@ const geonames = new Geonames({
 
 const App: FunctionComponent = () => {
   const [state, dispatch] = useReducer(reducer, { status: 'empty' });
-  // const [currentWikis, setCurrentWikis] = useState<CurrentWiki[] | undefined>(
-  //   undefined
-  // );
+
   useEffect(() => {
     if (state.status === 'success') {
       console.log('currentWiki', state.currentWikis);
@@ -87,9 +88,15 @@ const App: FunctionComponent = () => {
   }
   return (
     <React.Fragment>
-      {state.status === 'loading' && <span>Loading...</span>}
-      {state.status === 'success' && <div>{state.currentWikis[0]}</div>}
-      {state.status === 'error' && <span>Error: {state.error}</span>}
+      {state.status === 'loading' && (
+        <span style={{ color: 'white' }}>Loading...</span>
+      )}
+      {state.status === 'success' && (
+        <div style={{ color: 'white' }}>{state.currentWikis[0].summary}</div>
+      )}
+      {state.status === 'error' && (
+        <span style={{ color: 'white' }}>Error: {state.error}</span>
+      )}
 
       {/* <div style={{ color: '#fff' }}>{currentWiki}</div> */}
       {/* <Quiz currentWiki={currentWiki} /> */}

@@ -18,10 +18,10 @@ interface TownProps {
 }
 
 type Orientation = 'diagonal' | 'horizontal' | 'vertical';
+type Pattern = 'wave' | 'line' | 'circle';
 
-const patterns = ['wave', 'line', 'circle'];
+const patterns: Pattern[] = ['wave', 'line', 'circle'];
 const orientations: Orientation[] = ['horizontal', 'vertical', 'diagonal'];
-const color = '#0C2D83';
 
 const Town: FunctionComponent<TownProps> = ({
   centroid,
@@ -54,14 +54,21 @@ const Town: FunctionComponent<TownProps> = ({
     }
   }
 
-  const markerFill = () =>
+  const markerFill = (): string =>
     markerSelected && selectedTowns[finalSelection] === index
-      ? 'green'
+      ? '#228F67'
       : markerSelected
-      ? 'red'
+      ? '#D93F4C'
       : 'white';
 
-  const pattern = patterns[Math.floor(Math.random() * patterns.length)];
+  const color =
+    markerSelected && selectedTowns[finalSelection] === index
+      ? '#228F67'
+      : markerSelected
+      ? '#D93F4C'
+      : '#0C2D83';
+
+  const pattern: string = patterns[Math.floor(Math.random() * patterns.length)];
   const orientation: PatternOrientationType =
     orientations[Math.floor(Math.random() * orientations.length)];
 
@@ -70,7 +77,8 @@ const Town: FunctionComponent<TownProps> = ({
       <Geography
         geography={geo}
         fill={`url('#${index}-${pattern}')`}
-        strokeWidth={0.01}
+        strokeWidth={0.005}
+        stroke={'white'}
         style={{
           default: { outline: 'none' },
           hover: { outline: 'none' },
@@ -108,7 +116,7 @@ const Town: FunctionComponent<TownProps> = ({
       <Marker coordinates={centroid} onClick={(e) => handleMarkerClick(e)}>
         {isSelected && (
           <circle
-            r={0.15}
+            r={0.2}
             fill={markerFill()}
             stroke="#fff"
             strokeWidth={0.003}
