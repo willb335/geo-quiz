@@ -56,6 +56,7 @@ const geonames = new Geonames({
 });
 
 const SELECTED_TOWNS_LENGTH = 5;
+const WIKI_LENGTH = 3;
 const selectedTowns: number[] = [];
 while (selectedTowns.length < SELECTED_TOWNS_LENGTH) {
   const r = Math.floor(Math.random() * 168) + 1;
@@ -69,6 +70,7 @@ const App: FunctionComponent = () => {
   const [finalSelection] = useState<number>(
     getRandomInt(SELECTED_TOWNS_LENGTH)
   );
+  const [finalWiki] = useState<number>(getRandomInt(WIKI_LENGTH));
   const [selection, setSelection] = useState<number | undefined>(undefined);
   const [state, dispatch] = useReducer(reducer, { status: 'empty' });
 
@@ -117,7 +119,9 @@ const App: FunctionComponent = () => {
         <span style={{ color: 'white' }}>Loading...</span>
       )}
       {state.status === 'success' && (
-        <div style={{ color: 'white' }}>{state.currentWikis[0].summary}</div>
+        <div style={{ color: 'white' }}>
+          {state.currentWikis[finalWiki].summary}
+        </div>
       )}
       {state.status === 'error' && (
         <span style={{ color: 'white' }}>Error: {state.error}</span>
@@ -140,4 +144,4 @@ const App: FunctionComponent = () => {
   );
 };
 
-export default React.memo(App);
+export default App;
