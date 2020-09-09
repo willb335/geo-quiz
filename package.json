@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@vx/pattern": "0.0.198",
     "d3-geo": "^2.0.1",
     "geonames.js": "^2.3.0",
     "react": "^16.13.1",

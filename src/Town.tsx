@@ -1,11 +1,7 @@
-import React, {
-  FunctionComponent,
-  useState,
-  useEffect,
-  SyntheticEvent,
-} from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { Marker, Geography, Point } from 'react-simple-maps';
-import Geonames from 'geonames.js';
+import { PatternLines, PatternWaves, PatternCircles } from '@vx/pattern';
+import { PatternOrientationType } from '@vx/pattern/lib/constants';
 
 interface TownProps {
   centroid: Point;
@@ -13,22 +9,16 @@ interface TownProps {
   index: number;
   selectedTowns: number[];
   finalSelection: number;
+  findWikipedia: Function;
+  handleMarkerClick: Function;
+  selection: number | undefined;
 }
 
-const geonames = new Geonames({
-  username: 'willb335',
-  lan: 'en',
-  encoding: 'JSON',
-});
+type Orientation = 'diagonal' | 'horizontal' | 'vertical';
+type Pattern = 'wave' | 'line' | 'circle';
 
-function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
+const patterns: Pattern[] = ['wave', 'line', 'circle', 'line', 'wave'];
+const orientations: Orientation[] = ['horizontal', 'vertical', 'diagonal'];
 
 const Town: FunctionComponent<TownProps> = ({
   centroid,
@@ -36,53 +26,43 @@ const Town: FunctionComponent<TownProps> = ({
   index,
   selectedTowns,
   finalSelection,
+  findWikipedia,
+  handleMarkerClick,
+  selection,
 }) => {
-  const [markerSelected, setMarkerSelection] = useState(false);
-  const [townFill] = useState(getRandomColor());
   const isSelected = selectedTowns.includes(index);
 
   useEffect((): void => {
-    async function findWikipedia() {
-      const wiki = await geonames.findNearbyWikipedia({
-        lat: centroid[1],
-        lng: centroid[0],
-      });
-      console.log('wiki', wiki);
-    }
-
     if (index === selectedTowns[finalSelection]) {
-      console.log(
-        'selectedTowns',
-        selectedTowns,
-        'finalSelection',
-        finalSelection,
-        'index',
-        index
-      );
-      findWikipedia();
+      findWikipedia(centroid);
     }
-  }, [centroid, finalSelection, index, isSelected, selectedTowns]);
+  }, [centroid, finalSelection, findWikipedia, index, selectedTowns]);
 
-  function handleMarkerClick(e: SyntheticEvent): void {
-    e.preventDefault();
-    if (selectedTowns.includes(index)) {
-      setMarkerSelection(true);
-    }
-  }
-
-  const markerFill = () =>
-    markerSelected && selectedTowns[finalSelection] === index
-      ? 'green'
-      : markerSelected
-      ? 'red'
+  const markerFill =
+    selection && selectedTowns[finalSelection] === index
+      ? '#228F67'
+      : selection
+      ? '#D93F4C'
       : 'white';
+
+  const color =
+    selection && selectedTowns[finalSelection] === index
+      ? '#228F67'
+      : selection && isSelected
+      ? '#D93F4C'
+      : '#0C2D83';
+
+  const pattern: string = patterns[Math.floor(Math.random() * patterns.length)];
+  const orientation: PatternOrientationType =
+    orientations[Math.floor(Math.random() * orientations.length)];
 
   return (
     <React.Fragment key={geo.rsmKey}>
       <Geography
         geography={geo}
-        fill={townFill}
-        strokeWidth={0.01}
+        fill={`url('#${index}-${pattern}')`}
+        strokeWidth={0.005}
+        stroke={'white'}
         style={{
           default: { outline: 'none' },
           hover: { outline: 'none' },
@@ -90,31 +70,54 @@ const Town: FunctionComponent<TownProps> = ({
         }}
         tabIndex={-1}
       />
-      <Marker coordinates={centroid} onClick={(e) => handleMarkerClick(e)}>
-        {isSelected && (
-          <circle
-            r={0.15}
-            fill={markerFill()}
-            stroke="black"
-            strokeWidth={0.003}
-          />
-        )}
+      <PatternLines
+        id={`${index}-line`}
+        height={0.2}
+        width={0.2}
+        stroke="white"
+        strokeWidth={0.005}
+        background={color}
+        orientation={[orientation]}
+      />
 
-        {/* <text
-          fontSize={0.25}
-          textAnchor="middle"
-          style={{
-            zIndex: 5,
-            position: 'absolute',
-            fill: 'white',
-          }}
-          onClick={() => console.log(geo.properties.town)}
-        >
-          {geo.properties.town}
-        </text> */}
+      <PatternCircles
+        id={`${index}-circle`}
+        height={0.2}
+        width={0.2}
+        strokeWidth={0.009}
+        background={color}
+        stroke="white"
+        radius={0.005}
+      />
+
+      <PatternWaves
+        id={`${index}-wave`}
+        height={0.2}
+        width={0.2}
+        stroke="white"
+        strokeWidth={0.005}
+        background={color}
+      />
+      <Marker
+        coordinates={centroid}
+        onClick={(e) => handleMarkerClick(e, selectedTowns, index)}
+      >
+        {isSelected && (
+          <circle r={0.2} fill={markerFill} stroke="#fff" strokeWidth={0.003} />
+        )}
       </Marker>
     </React.Fragment>
   );
 };
 
-export default Town;
+const comparator = (prevProps: TownProps, nextProps: TownProps): boolean => {
+  const isSelected = nextProps.selectedTowns.includes(nextProps.index);
+
+  if (prevProps.selectedTowns !== nextProps.selectedTowns) return false;
+
+  if (prevProps.selection !== nextProps.selection && isSelected) return false;
+
+  return true;
+};
+
+export default React.memo(Town, comparator);
