@@ -17,6 +17,8 @@ interface QuizProps {
   dispatch: Dispatch<Action>;
 }
 
+const ROUNDS = 3;
+
 const Quiz: FunctionComponent<QuizProps> = ({
   appState,
   selection,
@@ -28,8 +30,12 @@ const Quiz: FunctionComponent<QuizProps> = ({
 }) => {
   const [score, setScore] = useState(0);
   const [round, setRound] = useState(1);
+  const [isFinished, setIsFinished] = useState(false);
 
   function handleNext(): void {
+    if (round === ROUNDS) {
+      setIsFinished(true);
+    }
     if (selection === selectedTowns[finalSelection]) {
       setScore((prev) => prev + 1);
       setRound((prev) => prev + 1);
@@ -41,7 +47,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
       dispatch({ type: 'empty' });
     }
   }
-  return (
+  return !isFinished ? (
     <React.Fragment>
       {appState.status === 'loading' && (
         <span style={{ color: 'white' }}>Loading...</span>
@@ -63,8 +69,12 @@ const Quiz: FunctionComponent<QuizProps> = ({
       <div style={{ color: 'white' }}>
         Score: {score} / {round - 1}
       </div>
-      {selection && <button onClick={handleNext}>Next</button>}
+      {selection && !isFinished && <button onClick={handleNext}>Next</button>}
     </React.Fragment>
+  ) : (
+    <div style={{ color: 'white' }}>
+      FINSIHED: Score: {score} / {round - 1}
+    </div>
   );
 };
 
