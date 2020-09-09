@@ -9,26 +9,21 @@ interface CTProps {
   findWikipedia: Function;
   handleMarkerClick: Function;
   selection: number | undefined;
+  selectedTowns: number[];
+  finalSelection: number;
 }
 
 const width = 800;
 const height = 600;
-const SELECTED_TOWNS_LENGTH = 5;
-function getRandomInt(max: number): number {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-const selectedTowns: number[] = [];
-while (selectedTowns.length < SELECTED_TOWNS_LENGTH) {
-  const r = Math.floor(Math.random() * 168) + 1;
-  if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
-}
 
 const CT: FunctionComponent<CTProps> = ({
   findWikipedia,
   handleMarkerClick,
   selection,
+  selectedTowns,
+  finalSelection,
 }) => {
-  const [finalSelection] = useState(getRandomInt(SELECTED_TOWNS_LENGTH));
+  // const [finalSelection] = useState(getRandomInt(SELECTED_TOWNS_LENGTH));
 
   return (
     <ComposableMap
@@ -60,38 +55,40 @@ const CT: FunctionComponent<CTProps> = ({
           })
         }
       </Geographies>
-      <Geographies geography={json.features}>
-        {({ geographies }) =>
-          geographies.map((geo, i) => {
-            const centroid = geoCentroid(geo);
-            return (
-              selectedTowns.includes(i) && (
-                <Annotation
-                  key={geo.rsmKey}
-                  subject={centroid}
-                  dx={-1}
-                  dy={-0.3}
-                  connectorProps={{
-                    stroke: '#fff',
-                    strokeWidth: 0.02,
-                    strokeLinecap: 'round',
-                  }}
-                >
-                  <text
-                    y={-0.11}
-                    fontSize={0.3}
-                    textAnchor="middle"
-                    style={{ fill: '#fff' }}
-                    onClick={() => console.log(geo.properties.town)}
+      {selection && (
+        <Geographies geography={json.features}>
+          {({ geographies }) =>
+            geographies.map((geo, i) => {
+              const centroid = geoCentroid(geo);
+              return (
+                selectedTowns.includes(i) && (
+                  <Annotation
+                    key={geo.rsmKey}
+                    subject={centroid}
+                    dx={-1}
+                    dy={-0.3}
+                    connectorProps={{
+                      stroke: '#fff',
+                      strokeWidth: 0.02,
+                      strokeLinecap: 'round',
+                    }}
                   >
-                    {geo.properties.town}
-                  </text>
-                </Annotation>
-              )
-            );
-          })
-        }
-      </Geographies>
+                    <text
+                      y={-0.11}
+                      fontSize={0.3}
+                      textAnchor="middle"
+                      style={{ fill: '#fff' }}
+                      onClick={() => console.log(geo.properties.town)}
+                    >
+                      {geo.properties.town}
+                    </text>
+                  </Annotation>
+                )
+              );
+            })
+          }
+        </Geographies>
+      )}
     </ComposableMap>
   );
 };

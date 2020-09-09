@@ -1,9 +1,4 @@
-import React, {
-  FunctionComponent,
-  useState,
-  useEffect,
-  SyntheticEvent,
-} from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { Marker, Geography, Point } from 'react-simple-maps';
 import { PatternLines, PatternWaves, PatternCircles } from '@vx/pattern';
 import { PatternOrientationType } from '@vx/pattern/lib/constants';
@@ -35,7 +30,6 @@ const Town: FunctionComponent<TownProps> = ({
   handleMarkerClick,
   selection,
 }) => {
-  // const [markerSelected, setMarkerSelection] = useState(false);
   const isSelected = selectedTowns.includes(index);
 
   useEffect((): void => {
@@ -50,13 +44,6 @@ const Town: FunctionComponent<TownProps> = ({
     isSelected,
     selectedTowns,
   ]);
-
-  // function handleMarkerClick(e: SyntheticEvent): void {
-  //   e.preventDefault();
-  //   if (selectedTowns.includes(index)) {
-  //     setMarkerSelection(true);
-  //   }
-  // }
 
   const markerFill =
     selection && selectedTowns[finalSelection] === index

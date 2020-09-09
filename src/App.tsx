@@ -55,8 +55,21 @@ const geonames = new Geonames({
   encoding: 'JSON',
 });
 
+const SELECTED_TOWNS_LENGTH = 5;
+const selectedTowns: number[] = [];
+while (selectedTowns.length < SELECTED_TOWNS_LENGTH) {
+  const r = Math.floor(Math.random() * 168) + 1;
+  if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
+}
+function getRandomInt(max: number): number {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 const App: FunctionComponent = () => {
-  const [selection, setSelection] = useState<number | undefined>();
+  const [finalSelection] = useState<number>(
+    getRandomInt(SELECTED_TOWNS_LENGTH)
+  );
+  const [selection, setSelection] = useState<number | undefined>(undefined);
   const [state, dispatch] = useReducer(reducer, { status: 'empty' });
 
   useEffect(() => {
@@ -109,12 +122,19 @@ const App: FunctionComponent = () => {
       {state.status === 'error' && (
         <span style={{ color: 'white' }}>Error: {state.error}</span>
       )}
+      {selection === selectedTowns[finalSelection] ? (
+        <div style={{ color: 'white' }}>Correct</div>
+      ) : (
+        <div style={{ color: 'white' }}>Wrong</div>
+      )}
 
       {/* <Quiz currentWiki={currentWiki} /> */}
       <CT
         findWikipedia={findWikipedia}
         handleMarkerClick={handleMarkerClick}
         selection={selection}
+        selectedTowns={selectedTowns}
+        finalSelection={finalSelection}
       />
     </React.Fragment>
   );
