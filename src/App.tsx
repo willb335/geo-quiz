@@ -9,9 +9,9 @@ import Geonames from 'geonames.js';
 import { Point } from 'react-simple-maps';
 
 import CT from './CT';
-// import Quiz from './Quiz';
+import Quiz from './Quiz';
 
-interface CurrentWiki {
+export interface CurrentWiki {
   countryCode: string;
   distance: number;
   elevation: number;
@@ -30,13 +30,16 @@ type State =
   | { status: 'error'; error: string }
   | { status: 'success'; currentWikis: CurrentWiki[] };
 
-type Action =
+export type Action =
+  | { type: 'empty' }
   | { type: 'request' }
   | { type: 'success'; results: CurrentWiki[] }
   | { type: 'failure'; error: string };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
+    case 'empty':
+      return { status: 'empty' };
     case 'request':
       return { status: 'loading' };
     case 'success':
@@ -57,26 +60,37 @@ const geonames = new Geonames({
 
 const SELECTED_TOWNS_LENGTH = 5;
 const WIKI_LENGTH = 3;
-const selectedTowns: number[] = [];
-while (selectedTowns.length < SELECTED_TOWNS_LENGTH) {
-  const r = Math.floor(Math.random() * 168) + 1;
-  if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
-}
+
 function getRandomInt(max: number): number {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
 const App: FunctionComponent = () => {
-  const [finalSelection] = useState<number>(
-    getRandomInt(SELECTED_TOWNS_LENGTH)
-  );
-  const [finalWiki] = useState<number>(getRandomInt(WIKI_LENGTH));
+  const [finalSelection, setFinalSelection] = useState<number>(0);
+  const [finalWiki, setFinalWiki] = useState<number>(0);
   const [selection, setSelection] = useState<number | undefined>(undefined);
+  const [selectedTowns, setSelectedTowns] = useState<number[]>([]);
   const [state, dispatch] = useReducer(reducer, { status: 'empty' });
 
   useEffect(() => {
     if (state.status === 'success') {
       console.log('currentWiki', state.currentWikis);
+    }
+  }, [state.status]);
+
+  useEffect(() => {
+    if (state.status === 'empty') {
+      console.log('empty now');
+
+      setFinalWiki(getRandomInt(WIKI_LENGTH));
+      setFinalSelection(getRandomInt(SELECTED_TOWNS_LENGTH));
+
+      const selectedTowns: number[] = [];
+      while (selectedTowns.length < SELECTED_TOWNS_LENGTH) {
+        const r = Math.floor(Math.random() * 168) + 1;
+        if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
+      }
+      setSelectedTowns(selectedTowns);
     }
   }, [state.status]);
 
@@ -115,24 +129,14 @@ const App: FunctionComponent = () => {
 
   return (
     <React.Fragment>
-      {state.status === 'loading' && (
-        <span style={{ color: 'white' }}>Loading...</span>
-      )}
-      {state.status === 'success' && (
-        <div style={{ color: 'white' }}>
-          {state.currentWikis[finalWiki].summary}
-        </div>
-      )}
-      {state.status === 'error' && (
-        <span style={{ color: 'white' }}>Error: {state.error}</span>
-      )}
-      {selection === selectedTowns[finalSelection] ? (
-        <div style={{ color: 'white' }}>Correct</div>
-      ) : (
-        <div style={{ color: 'white' }}>Wrong</div>
-      )}
-
-      {/* <Quiz currentWiki={currentWiki} /> */}
+      <Quiz
+        appState={state}
+        selection={selection}
+        selectedTowns={selectedTowns}
+        finalSelection={finalSelection}
+        finalWiki={finalWiki}
+        dispatch={dispatch}
+      />
       <CT
         findWikipedia={findWikipedia}
         handleMarkerClick={handleMarkerClick}
