@@ -36,14 +36,7 @@ const Town: FunctionComponent<TownProps> = ({
     if (index === selectedTowns[finalSelection]) {
       findWikipedia(centroid);
     }
-  }, [
-    centroid,
-    finalSelection,
-    findWikipedia,
-    index,
-    isSelected,
-    selectedTowns,
-  ]);
+  }, [centroid, finalSelection, findWikipedia, index, selectedTowns]);
 
   const markerFill =
     selection && selectedTowns[finalSelection] === index
@@ -55,7 +48,7 @@ const Town: FunctionComponent<TownProps> = ({
   const color =
     selection && selectedTowns[finalSelection] === index
       ? '#228F67'
-      : selection && selectedTowns.includes(index)
+      : selection && isSelected
       ? '#D93F4C'
       : '#0C2D83';
 
@@ -117,9 +110,12 @@ const Town: FunctionComponent<TownProps> = ({
 };
 
 const comparator = (prevProps: TownProps, nextProps: TownProps): boolean => {
-  if (prevProps.selection !== nextProps.selection) {
-    return false;
-  }
+  const isSelected = nextProps.selectedTowns.includes(nextProps.index);
+
+  if (prevProps.selectedTowns !== nextProps.selectedTowns) return false;
+
+  if (prevProps.selection !== nextProps.selection && isSelected) return false;
+
   return true;
 };
 
