@@ -13,6 +13,7 @@ interface QuizProps {
   selectedTowns: number[];
   finalSelection: number;
   finalWiki: number;
+  resetRound: Function;
   dispatch: Dispatch<Action>;
 }
 
@@ -22,6 +23,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
   selectedTowns,
   finalSelection,
   finalWiki,
+  resetRound,
   dispatch,
 }) => {
   const [score, setScore] = useState(0);
@@ -31,9 +33,11 @@ const Quiz: FunctionComponent<QuizProps> = ({
     if (selection === selectedTowns[finalSelection]) {
       setScore((prev) => prev + 1);
       setRound((prev) => prev + 1);
+      resetRound();
       dispatch({ type: 'empty' });
     } else {
       setRound((prev) => prev + 1);
+      resetRound();
       dispatch({ type: 'empty' });
     }
   }

@@ -79,20 +79,21 @@ const App: FunctionComponent = () => {
   }, [state.status]);
 
   useEffect(() => {
-    if (state.status === 'empty') {
-      console.log('empty now');
+    resetRound();
+  }, []);
 
-      setFinalWiki(getRandomInt(WIKI_LENGTH));
-      setFinalSelection(getRandomInt(SELECTED_TOWNS_LENGTH));
+  function resetRound(): void {
+    setFinalWiki(getRandomInt(WIKI_LENGTH));
+    setFinalSelection(getRandomInt(SELECTED_TOWNS_LENGTH));
+    setSelection(undefined);
 
-      const selectedTowns: number[] = [];
-      while (selectedTowns.length < SELECTED_TOWNS_LENGTH) {
-        const r = Math.floor(Math.random() * 168) + 1;
-        if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
-      }
-      setSelectedTowns(selectedTowns);
+    const selectedTowns: number[] = [];
+    while (selectedTowns.length < SELECTED_TOWNS_LENGTH) {
+      const r = Math.floor(Math.random() * 168) + 1;
+      if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
     }
-  }, [state.status]);
+    setSelectedTowns(selectedTowns);
+  }
 
   async function findWikipedia(centroid: Point): Promise<undefined | string> {
     try {
@@ -135,6 +136,7 @@ const App: FunctionComponent = () => {
         selectedTowns={selectedTowns}
         finalSelection={finalSelection}
         finalWiki={finalWiki}
+        resetRound={resetRound}
         dispatch={dispatch}
       />
       <CT
