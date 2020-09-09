@@ -123,7 +123,7 @@ const App: FunctionComponent = () => {
     index: number
   ): void {
     e.preventDefault();
-    if (selectedTowns.includes(index)) {
+    if (selectedTowns.includes(index) && selection === undefined) {
       setSelection(index);
     }
   }

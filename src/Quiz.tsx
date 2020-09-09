@@ -60,8 +60,10 @@ const Quiz: FunctionComponent<QuizProps> = ({
         <div style={{ color: 'white' }}>Select a town</div>
       )}
       <div style={{ color: 'white' }}>Round: {round}</div>
-      <div style={{ color: 'white' }}>Score: {score}</div>
-      <button onClick={handleNext}>Next</button>
+      <div style={{ color: 'white' }}>
+        Score: {score} / {round - 1}
+      </div>
+      {selection && <button onClick={handleNext}>Next</button>}
     </React.Fragment>
   );
 };

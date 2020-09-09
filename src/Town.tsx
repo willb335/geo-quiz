@@ -116,4 +116,11 @@ const Town: FunctionComponent<TownProps> = ({
   );
 };
 
-export default Town;
+const comparator = (prevProps: TownProps, nextProps: TownProps): boolean => {
+  if (prevProps.selection !== nextProps.selection) {
+    return false;
+  }
+  return true;
+};
+
+export default React.memo(Town, comparator);
