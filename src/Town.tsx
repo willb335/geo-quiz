@@ -15,6 +15,8 @@ interface TownProps {
   selectedTowns: number[];
   finalSelection: number;
   findWikipedia: Function;
+  handleMarkerClick: Function;
+  selection: number | undefined;
 }
 
 type Orientation = 'diagonal' | 'horizontal' | 'vertical';
@@ -30,8 +32,10 @@ const Town: FunctionComponent<TownProps> = ({
   selectedTowns,
   finalSelection,
   findWikipedia,
+  handleMarkerClick,
+  selection,
 }) => {
-  const [markerSelected, setMarkerSelection] = useState(false);
+  // const [markerSelected, setMarkerSelection] = useState(false);
   const isSelected = selectedTowns.includes(index);
 
   useEffect((): void => {
@@ -47,24 +51,24 @@ const Town: FunctionComponent<TownProps> = ({
     selectedTowns,
   ]);
 
-  function handleMarkerClick(e: SyntheticEvent): void {
-    e.preventDefault();
-    if (selectedTowns.includes(index)) {
-      setMarkerSelection(true);
-    }
-  }
+  // function handleMarkerClick(e: SyntheticEvent): void {
+  //   e.preventDefault();
+  //   if (selectedTowns.includes(index)) {
+  //     setMarkerSelection(true);
+  //   }
+  // }
 
-  const markerFill = (): string =>
-    markerSelected && selectedTowns[finalSelection] === index
+  const markerFill =
+    selection && selectedTowns[finalSelection] === index
       ? '#228F67'
-      : markerSelected
+      : selection
       ? '#D93F4C'
       : 'white';
 
   const color =
-    markerSelected && selectedTowns[finalSelection] === index
+    selection && selectedTowns[finalSelection] === index
       ? '#228F67'
-      : markerSelected
+      : selection && selectedTowns.includes(index)
       ? '#D93F4C'
       : '#0C2D83';
 
@@ -113,14 +117,12 @@ const Town: FunctionComponent<TownProps> = ({
         strokeWidth={0.005}
         background={color}
       />
-      <Marker coordinates={centroid} onClick={(e) => handleMarkerClick(e)}>
+      <Marker
+        coordinates={centroid}
+        onClick={(e) => handleMarkerClick(e, selectedTowns, index)}
+      >
         {isSelected && (
-          <circle
-            r={0.2}
-            fill={markerFill()}
-            stroke="#fff"
-            strokeWidth={0.003}
-          />
+          <circle r={0.2} fill={markerFill} stroke="#fff" strokeWidth={0.003} />
         )}
       </Marker>
     </React.Fragment>

@@ -7,6 +7,8 @@ import json from './CT.geo.json';
 
 interface CTProps {
   findWikipedia: Function;
+  handleMarkerClick: Function;
+  selection: number | undefined;
 }
 
 const width = 800;
@@ -21,7 +23,11 @@ while (selectedTowns.length < SELECTED_TOWNS_LENGTH) {
   if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
 }
 
-const CT: FunctionComponent<CTProps> = ({ findWikipedia }) => {
+const CT: FunctionComponent<CTProps> = ({
+  findWikipedia,
+  handleMarkerClick,
+  selection,
+}) => {
   const [finalSelection] = useState(getRandomInt(SELECTED_TOWNS_LENGTH));
 
   return (
@@ -47,6 +53,8 @@ const CT: FunctionComponent<CTProps> = ({ findWikipedia }) => {
                 selectedTowns={selectedTowns}
                 finalSelection={finalSelection}
                 findWikipedia={findWikipedia}
+                handleMarkerClick={handleMarkerClick}
+                selection={selection}
               />
             );
           })

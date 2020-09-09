@@ -1,8 +1,9 @@
 import React, {
-  useState,
   useEffect,
+  useState,
   FunctionComponent,
   useReducer,
+  SyntheticEvent,
 } from 'react';
 import Geonames from 'geonames.js';
 import { Point } from 'react-simple-maps';
@@ -55,6 +56,7 @@ const geonames = new Geonames({
 });
 
 const App: FunctionComponent = () => {
+  const [selection, setSelection] = useState<number | undefined>();
   const [state, dispatch] = useReducer(reducer, { status: 'empty' });
 
   useEffect(() => {
@@ -75,8 +77,6 @@ const App: FunctionComponent = () => {
           lng: centroid[0],
         });
         dispatch({ type: 'success', results: wiki.geonames });
-
-        // setCurrentWikis(wiki.geonames);
       }
 
       return;
@@ -86,6 +86,18 @@ const App: FunctionComponent = () => {
       return e;
     }
   }
+
+  function handleMarkerClick(
+    e: SyntheticEvent,
+    selectedTowns: number[],
+    index: number
+  ): void {
+    e.preventDefault();
+    if (selectedTowns.includes(index)) {
+      setSelection(index);
+    }
+  }
+
   return (
     <React.Fragment>
       {state.status === 'loading' && (
@@ -98,9 +110,12 @@ const App: FunctionComponent = () => {
         <span style={{ color: 'white' }}>Error: {state.error}</span>
       )}
 
-      {/* <div style={{ color: '#fff' }}>{currentWiki}</div> */}
       {/* <Quiz currentWiki={currentWiki} /> */}
-      <CT findWikipedia={findWikipedia} />
+      <CT
+        findWikipedia={findWikipedia}
+        handleMarkerClick={handleMarkerClick}
+        selection={selection}
+      />
     </React.Fragment>
   );
 };
