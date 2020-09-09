@@ -17,7 +17,7 @@ interface TownProps {
 type Orientation = 'diagonal' | 'horizontal' | 'vertical';
 type Pattern = 'wave' | 'line' | 'circle';
 
-const patterns: Pattern[] = ['wave', 'line', 'circle'];
+const patterns: Pattern[] = ['wave', 'line', 'circle', 'line', 'wave'];
 const orientations: Orientation[] = ['horizontal', 'vertical', 'diagonal'];
 
 const Town: FunctionComponent<TownProps> = ({
@@ -72,8 +72,8 @@ const Town: FunctionComponent<TownProps> = ({
       />
       <PatternLines
         id={`${index}-line`}
-        height={0.05}
-        width={0.05}
+        height={0.2}
+        width={0.2}
         stroke="white"
         strokeWidth={0.005}
         background={color}
@@ -82,17 +82,18 @@ const Town: FunctionComponent<TownProps> = ({
 
       <PatternCircles
         id={`${index}-circle`}
-        height={0.05}
-        width={0.05}
-        strokeWidth={0.005}
+        height={0.2}
+        width={0.2}
+        strokeWidth={0.009}
         background={color}
+        stroke="white"
         radius={0.005}
       />
 
       <PatternWaves
         id={`${index}-wave`}
-        height={0.05}
-        width={0.05}
+        height={0.2}
+        width={0.2}
         stroke="white"
         strokeWidth={0.005}
         background={color}
