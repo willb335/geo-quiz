@@ -35,6 +35,13 @@ const Quiz: FunctionComponent<QuizProps> = ({
   function handleNext(): void {
     if (round === ROUNDS) {
       setIsFinished(true);
+      if (selection === selectedTowns[finalSelection]) {
+        setScore((prev) => prev + 1);
+        setRound((prev) => prev + 1);
+      } else {
+        setRound((prev) => prev + 1);
+      }
+      return;
     }
     if (selection === selectedTowns[finalSelection]) {
       setScore((prev) => prev + 1);
@@ -47,6 +54,15 @@ const Quiz: FunctionComponent<QuizProps> = ({
       dispatch({ type: 'empty' });
     }
   }
+
+  function playAgain(): void {
+    setScore(0);
+    setRound(1);
+    setIsFinished(false);
+    resetRound();
+    dispatch({ type: 'empty' });
+  }
+
   return !isFinished ? (
     <React.Fragment>
       {appState.status === 'loading' && (
@@ -72,9 +88,12 @@ const Quiz: FunctionComponent<QuizProps> = ({
       {selection && !isFinished && <button onClick={handleNext}>Next</button>}
     </React.Fragment>
   ) : (
-    <div style={{ color: 'white' }}>
-      FINSIHED: Score: {score} / {round - 1}
-    </div>
+    <>
+      <div style={{ color: 'white' }}>
+        FINSIHED: Score: {score} / {round - 1}
+      </div>
+      <button onClick={playAgain}>Play Again</button>
+    </>
   );
 };
 
