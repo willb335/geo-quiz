@@ -1,4 +1,9 @@
-import React, { useState, useEffect, FunctionComponent } from 'react';
+import React, {
+  useState,
+  useEffect,
+  FunctionComponent,
+  useReducer,
+} from 'react';
 import Geonames from 'geonames.js';
 import { Point } from 'react-simple-maps';
 
@@ -18,6 +23,28 @@ interface CurrentWiki {
   wikipediaUrl: string;
 }
 
+type State =
+  | { status: 'empty' }
+  | { status: 'loading' }
+  | { status: 'error'; error: string }
+  | { status: 'success'; currentWikis: CurrentWiki[] };
+
+type Action =
+  | { type: 'request' }
+  | { type: 'success'; results: CurrentWiki[] }
+  | { type: 'failure'; error: string };
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'request':
+      return { status: 'loading' };
+    case 'success':
+      return { status: 'success', currentWikis: action.results };
+    case 'failure':
+      return { status: 'error', error: action.error };
+  }
+}
+
 const geonames = new Geonames({
   username: 'willb335',
   lan: 'en',
@@ -25,33 +52,45 @@ const geonames = new Geonames({
 });
 
 const App: FunctionComponent = () => {
-  const [currentWikis, setCurrentWikis] = useState<CurrentWiki[] | undefined>(
-    undefined
-  );
+  const [state, dispatch] = useReducer(reducer, { status: 'empty' });
+  // const [currentWikis, setCurrentWikis] = useState<CurrentWiki[] | undefined>(
+  //   undefined
+  // );
   useEffect(() => {
-    console.log('currentWiki', currentWikis);
-  }, [currentWikis]);
+    if (state.status === 'success') {
+      console.log('currentWiki', state.currentWikis);
+    }
+  }, [state.status]);
+
   async function findWikipedia(centroid: Point): Promise<undefined | string> {
     try {
-      if (currentWikis === undefined) {
+      if (state.status === 'empty') {
+        dispatch({ type: 'request' });
+
         const wiki: {
           [geonames: string]: CurrentWiki[];
         } = await geonames.findNearbyWikipedia({
           lat: centroid[1],
           lng: centroid[0],
         });
+        dispatch({ type: 'success', results: wiki.geonames });
 
-        setCurrentWikis(wiki.geonames);
+        // setCurrentWikis(wiki.geonames);
       }
 
       return;
     } catch (e) {
+      dispatch({ type: 'failure', error: e });
       console.log('error finding wikipedia', e);
       return e;
     }
   }
   return (
     <React.Fragment>
+      {state.status === 'loading' && <span>Loading...</span>}
+      {state.status === 'success' && <div>{state.currentWikis[0]}</div>}
+      {state.status === 'error' && <span>Error: {state.error}</span>}
+
       {/* <div style={{ color: '#fff' }}>{currentWiki}</div> */}
       {/* <Quiz currentWiki={currentWiki} /> */}
       <CT findWikipedia={findWikipedia} />
