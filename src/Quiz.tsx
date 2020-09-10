@@ -91,7 +91,21 @@ const Quiz: FunctionComponent<QuizProps> = ({
           <>
             <div>
               {appState.currentWikis &&
-                appState.currentWikis[finalWiki].summary}
+                appState.currentWikis[finalWiki].summary}{' '}
+              {
+                <span>
+                  <a
+                    href={`https://${
+                      appState.currentWikis &&
+                      appState.currentWikis[finalWiki].wikipediaUrl
+                    }`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Wiki
+                  </a>
+                </span>
+              }
             </div>
             <Round>Round: {round}</Round>
             <Score>
@@ -110,15 +124,15 @@ const Quiz: FunctionComponent<QuizProps> = ({
 
   return (
     <QuizContainer>
-      {!isFinished ? (
-        <React.Fragment>{display(appState)}</React.Fragment>
-      ) : (
+      {isFinished ? (
         <React.Fragment>
           <Finished>
             FINSIHED: Score: {score} / {round - 1}
           </Finished>
           <Button onClick={playAgain}>Play Again</Button>
         </React.Fragment>
+      ) : (
+        <React.Fragment>{display(appState)}</React.Fragment>
       )}
     </QuizContainer>
   );

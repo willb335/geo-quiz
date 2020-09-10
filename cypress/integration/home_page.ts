@@ -6,7 +6,6 @@ describe('Completing a task', () => {
   });
 
   it('Finds the "Please" text', () => {
-    cy.wait(7000);
     cy.findByText(/Please/i).should('exist');
   });
 });
