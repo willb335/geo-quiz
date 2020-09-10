@@ -11,8 +11,8 @@ const customTheme = {
     'buttons.button': css`
       && {
         color: black;
-        border-color: ${(props: any) =>
-          props.disabled === true ? 'none' : 'black'};
+        border-color: ${({ disabled }: { disabled: boolean }) =>
+          disabled === true ? 'none' : 'black'};
       }
     `,
   },
