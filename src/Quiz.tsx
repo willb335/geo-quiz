@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState, Dispatch } from 'react';
 import { CurrentWiki, Action } from './App';
 import { Dots } from '@zendeskgarden/react-loaders';
+import { Button } from '@zendeskgarden/react-buttons';
 import styled from 'styled-components';
 
 interface AppState {
@@ -31,10 +32,13 @@ const Round = styled.div`
   margin: 10px 0 10px 0;
 `;
 
-const Score = styled(Round)`
-  font-weight: bold;
-  margin: 10px 0 10px 0;
-`;
+const Score = styled(Round)``;
+
+const Correct = styled(Round)``;
+
+const Finished = styled(Round)``;
+
+const PleaseSelect = styled(Round)``;
 
 const Quiz: FunctionComponent<QuizProps> = ({
   appState,
@@ -87,14 +91,15 @@ const Quiz: FunctionComponent<QuizProps> = ({
       case 'success':
         return (
           <>
-            <span>
+            <div>
               {appState.currentWikis &&
                 appState.currentWikis[finalWiki].summary}
-            </span>
+            </div>
             <Round>Round: {round}</Round>
             <Score>
               Score: {score} / {round - 1}
             </Score>
+            <PleaseSelect>Please select a town</PleaseSelect>
           </>
         );
       case 'error':
@@ -107,20 +112,17 @@ const Quiz: FunctionComponent<QuizProps> = ({
       {!isFinished ? (
         <React.Fragment>
           {display(appState)}
-          {selection === selectedTowns[finalSelection] ? (
-            <div>Correct</div>
-          ) : (
-            <div>Select a town</div>
+          {selection === selectedTowns[finalSelection] && (
+            <Correct>Correct </Correct>
           )}
-
-          {selection && <button onClick={handleNext}>Next</button>}
+          {selection && <Button onClick={handleNext}>Next</Button>}
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div>
+          <Finished>
             FINSIHED: Score: {score} / {round - 1}
-          </div>
-          <button onClick={playAgain}>Play Again</button>
+          </Finished>
+          <Button onClick={playAgain}>Play Again</Button>
         </React.Fragment>
       )}
     </QuizContainer>
