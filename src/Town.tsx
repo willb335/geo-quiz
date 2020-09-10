@@ -30,7 +30,7 @@ const Town: FunctionComponent<TownProps> = ({
   handleMarkerClick,
   selection,
 }) => {
-  const isSelected = selectedTowns.includes(index);
+  const isSelected: boolean = selectedTowns.includes(index);
 
   useEffect((): void => {
     if (index === selectedTowns[finalSelection]) {
@@ -112,7 +112,7 @@ const Town: FunctionComponent<TownProps> = ({
 };
 
 const comparator = (prevProps: TownProps, nextProps: TownProps): boolean => {
-  const isSelected = nextProps.selectedTowns.includes(nextProps.index);
+  const isSelected: boolean = nextProps.selectedTowns.includes(nextProps.index);
 
   if (prevProps.selectedTowns !== nextProps.selectedTowns) return false;
 

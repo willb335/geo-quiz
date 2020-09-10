@@ -34,8 +34,6 @@ const Round = styled.div`
 
 const Score = styled(Round)``;
 
-const Correct = styled(Round)``;
-
 const Finished = styled(Round)``;
 
 const PleaseSelect = styled(Round)``;
@@ -100,6 +98,9 @@ const Quiz: FunctionComponent<QuizProps> = ({
               Score: {score} / {round - 1}
             </Score>
             <PleaseSelect>Please select a town</PleaseSelect>
+            <Button disabled={selection === undefined} onClick={handleNext}>
+              Next
+            </Button>
           </>
         );
       case 'error':
@@ -110,13 +111,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
   return (
     <QuizContainer>
       {!isFinished ? (
-        <React.Fragment>
-          {display(appState)}
-          {selection === selectedTowns[finalSelection] && (
-            <Correct>Correct </Correct>
-          )}
-          {selection && <Button onClick={handleNext}>Next</Button>}
-        </React.Fragment>
+        <React.Fragment>{display(appState)}</React.Fragment>
       ) : (
         <React.Fragment>
           <Finished>
