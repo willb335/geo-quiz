@@ -20,7 +20,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,9 +39,12 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^5.1.0",
+    "@testing-library/cypress": "^7.0.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@types/testing-library__cypress": "^5.0.6",
     "@types/d3-geo": "^1.11.1",
     "@types/jest": "^24.0.0",
     "@types/node": "^12.0.0",
