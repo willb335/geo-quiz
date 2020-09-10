@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { ComposableMap, Geographies, Annotation } from 'react-simple-maps';
 import { geoCentroid } from 'd3-geo';
 
@@ -23,15 +23,13 @@ const CT: FunctionComponent<CTProps> = ({
   selectedTowns,
   finalSelection,
 }) => {
-  // const [finalSelection] = useState(getRandomInt(SELECTED_TOWNS_LENGTH));
-
   return (
     <ComposableMap
       projection="geoAlbersUsa"
       projectionConfig={{ scale: 820 }}
       width={width}
       height={height}
-      viewBox="640 219 25 25"
+      viewBox="638 219 28 28"
       xmlns="http://www.w3.org/2000/svg"
     >
       <Geographies geography={json.features}>
@@ -68,16 +66,16 @@ const CT: FunctionComponent<CTProps> = ({
                     dx={-1}
                     dy={-0.3}
                     connectorProps={{
-                      stroke: '#fff',
+                      stroke: 'gold',
                       strokeWidth: 0.02,
                       strokeLinecap: 'round',
                     }}
                   >
                     <text
                       y={-0.11}
-                      fontSize={0.3}
+                      fontSize={0.4}
                       textAnchor="middle"
-                      style={{ fill: '#fff' }}
+                      style={{ fill: 'gold' }}
                       onClick={() => console.log(geo.properties.town)}
                     >
                       {geo.properties.town}

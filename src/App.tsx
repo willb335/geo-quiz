@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import Geonames from 'geonames.js';
 import { Point } from 'react-simple-maps';
+import styled from 'styled-components';
 
 import CT from './CT';
 import Quiz from './Quiz';
@@ -65,18 +66,24 @@ function getRandomInt(max: number): number {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
+const FlexContainer = styled.div`
+  margin: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (max-width: 500px) {
+    justify-content: space-around;
+    height: 100vh;
+  }
+`;
+
 const App: FunctionComponent = () => {
-  const [finalSelection, setFinalSelection] = useState<number>(0);
-  const [finalWiki, setFinalWiki] = useState<number>(0);
+  const [finalSelection, setFinalSelection] = useState(0);
+  const [finalWiki, setFinalWiki] = useState(0);
   const [selection, setSelection] = useState<number | undefined>(undefined);
   const [selectedTowns, setSelectedTowns] = useState<number[]>([]);
   const [state, dispatch] = useReducer(reducer, { status: 'empty' });
-
-  useEffect(() => {
-    if (state.status === 'success') {
-      console.log('currentWiki', state.currentWikis);
-    }
-  }, [state.status]);
 
   useEffect(() => {
     resetRound();
@@ -129,7 +136,7 @@ const App: FunctionComponent = () => {
   }
 
   return (
-    <React.Fragment>
+    <FlexContainer>
       <Quiz
         appState={state}
         selection={selection}
@@ -146,7 +153,7 @@ const App: FunctionComponent = () => {
         selectedTowns={selectedTowns}
         finalSelection={finalSelection}
       />
-    </React.Fragment>
+    </FlexContainer>
   );
 };
 

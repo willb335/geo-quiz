@@ -3,10 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { ThemeProvider, DEFAULT_THEME } from '@zendeskgarden/react-theming';
+
+const customTheme = { colors: { primaryHue: 'black' } };
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={{ ...DEFAULT_THEME, ...customTheme }}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

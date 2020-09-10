@@ -4,6 +4,10 @@
   "private": true,
   "dependencies": {
     "@vx/pattern": "0.0.198",
+    "@zendeskgarden/react-buttons": "^8.22.0",
+    "@zendeskgarden/react-loaders": "^8.22.0",
+    "@zendeskgarden/react-theming": "^8.22.0",
+    "@zendeskgarden/react-typography": "^8.22.0",
     "d3-geo": "^2.0.1",
     "geonames.js": "^2.3.0",
     "react": "^16.13.1",
