@@ -104,7 +104,13 @@ const Town: FunctionComponent<TownProps> = ({
         onClick={(e) => handleMarkerClick(e, selectedTowns, index)}
       >
         {isSelected && (
-          <circle r={0.2} fill={markerFill} stroke="#fff" strokeWidth={0.003} />
+          <circle
+            data-testid="marker"
+            r={0.2}
+            fill={markerFill}
+            stroke="#fff"
+            strokeWidth={0.003}
+          />
         )}
       </Marker>
     </React.Fragment>

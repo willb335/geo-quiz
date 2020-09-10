@@ -127,7 +127,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
       {isFinished ? (
         <React.Fragment>
           <Finished>
-            FINSIHED: Score: {score} / {round - 1}
+            FINISHED: Score: {score} / {round - 1}
           </Finished>
           <Button onClick={playAgain}>Play Again</Button>
         </React.Fragment>
