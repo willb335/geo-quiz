@@ -52,6 +52,8 @@ function reducer(state: State, action: Action): State {
   }
 }
 
+const { REACT_APP_USERNAME } = process.env;
+
 const SELECTED_TOWNS_LENGTH = 5;
 const WIKI_LENGTH = 3;
 
@@ -102,7 +104,7 @@ const App: FunctionComponent = () => {
         dispatch({ type: 'request' });
 
         const response: Response = await fetch(
-          `http://api.geonames.org/findNearbyWikipediaJSON?formatted=true&lat=${centroid[1]}&lng=${centroid[0]}&username=willb335&style=full`
+          `http://api.geonames.org/findNearbyWikipediaJSON?formatted=true&lat=${centroid[1]}&lng=${centroid[0]}&username=${REACT_APP_USERNAME}&style=full`
         );
 
         const wiki: {
