@@ -67,10 +67,15 @@ function getRandomInt(max: number): number {
 }
 
 const FlexContainer = styled.div`
-  margin: 10%;
+  margin: 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 500px) {
+    justify-content: space-around;
+    height: 100vh;
+  }
 `;
 
 const App: FunctionComponent = () => {

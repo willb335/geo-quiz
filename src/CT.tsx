@@ -29,7 +29,7 @@ const CT: FunctionComponent<CTProps> = ({
       projectionConfig={{ scale: 820 }}
       width={width}
       height={height}
-      viewBox="640 219 25 25"
+      viewBox="638 219 28 28"
       xmlns="http://www.w3.org/2000/svg"
     >
       <Geographies geography={json.features}>

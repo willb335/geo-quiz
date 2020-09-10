@@ -24,7 +24,7 @@ const ROUNDS = 3;
 
 const QuizContainer = styled.div`
   display: block;
-  height: 25vh;
+  min-height: 20vh;
 `;
 
 const Round = styled.div`
