@@ -52,7 +52,8 @@ const Town: FunctionComponent<TownProps> = ({
       ? '#D93F4C'
       : '#0C2D83';
 
-  const pattern: string = patterns[Math.floor(Math.random() * patterns.length)];
+  const pattern: Pattern =
+    patterns[Math.floor(Math.random() * patterns.length)];
   const orientation: PatternOrientationType =
     orientations[Math.floor(Math.random() * orientations.length)];
 

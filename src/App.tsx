@@ -79,17 +79,11 @@ const FlexContainer = styled.div`
 `;
 
 const App: FunctionComponent = () => {
-  const [finalSelection, setFinalSelection] = useState<number>(0);
-  const [finalWiki, setFinalWiki] = useState<number>(0);
+  const [finalSelection, setFinalSelection] = useState(0);
+  const [finalWiki, setFinalWiki] = useState(0);
   const [selection, setSelection] = useState<number | undefined>(undefined);
   const [selectedTowns, setSelectedTowns] = useState<number[]>([]);
   const [state, dispatch] = useReducer(reducer, { status: 'empty' });
-
-  useEffect(() => {
-    if (state.status === 'success') {
-      console.log('currentWiki', state.currentWikis);
-    }
-  }, [state.status]);
 
   useEffect(() => {
     resetRound();
