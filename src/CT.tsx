@@ -66,16 +66,17 @@ const CT: FunctionComponent<CTProps> = ({
                     dx={-1}
                     dy={-0.3}
                     connectorProps={{
-                      stroke: 'gold',
+                      stroke: '#CFB53B',
                       strokeWidth: 0.02,
                       strokeLinecap: 'round',
                     }}
                   >
                     <text
                       y={-0.11}
-                      fontSize={0.4}
+                      fontSize={0.5}
+                      fontStyle="bold"
                       textAnchor="middle"
-                      style={{ fill: 'gold' }}
+                      style={{ fill: '#CFB53B' }}
                       onClick={() => console.log(geo.properties.town)}
                     >
                       {geo.properties.town}
