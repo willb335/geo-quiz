@@ -1,5 +1,7 @@
 import React, { FunctionComponent, useState, Dispatch } from 'react';
 import { CurrentWiki, Action } from './App';
+import { Dots } from '@zendeskgarden/react-loaders';
+import styled from 'styled-components';
 
 interface AppState {
   status: string;
@@ -18,6 +20,21 @@ interface QuizProps {
 }
 
 const ROUNDS = 3;
+
+const QuizContainer = styled.div`
+  display: block;
+  height: 25vh;
+`;
+
+const Round = styled.div`
+  font-weight: bold;
+  margin: 10px 0 10px 0;
+`;
+
+const Score = styled(Round)`
+  font-weight: bold;
+  margin: 10px 0 10px 0;
+`;
 
 const Quiz: FunctionComponent<QuizProps> = ({
   appState,
@@ -63,37 +80,50 @@ const Quiz: FunctionComponent<QuizProps> = ({
     dispatch({ type: 'empty' });
   }
 
-  return !isFinished ? (
-    <React.Fragment>
-      {appState.status === 'loading' && (
-        <span style={{ color: 'white' }}>Loading...</span>
-      )}
-      {appState.status === 'success' && (
-        <div style={{ color: 'white' }}>
-          {appState.currentWikis && appState.currentWikis[finalWiki].summary}
-        </div>
-      )}
-      {appState.status === 'error' && (
-        <span style={{ color: 'white' }}>Error: {appState.error}</span>
-      )}
-      {selection === selectedTowns[finalSelection] ? (
-        <div style={{ color: 'white' }}>Correct</div>
+  function display(appState: AppState): JSX.Element | undefined {
+    switch (appState.status) {
+      case 'loading':
+        return <Dots size={50} />;
+      case 'success':
+        return (
+          <>
+            <span>
+              {appState.currentWikis &&
+                appState.currentWikis[finalWiki].summary}
+            </span>
+            <Round>Round: {round}</Round>
+            <Score>
+              Score: {score} / {round - 1}
+            </Score>
+          </>
+        );
+      case 'error':
+        return <span>Error: {appState.error}</span>;
+    }
+  }
+
+  return (
+    <QuizContainer>
+      {!isFinished ? (
+        <React.Fragment>
+          {display(appState)}
+          {selection === selectedTowns[finalSelection] ? (
+            <div>Correct</div>
+          ) : (
+            <div>Select a town</div>
+          )}
+
+          {selection && <button onClick={handleNext}>Next</button>}
+        </React.Fragment>
       ) : (
-        <div style={{ color: 'white' }}>Select a town</div>
+        <React.Fragment>
+          <div>
+            FINSIHED: Score: {score} / {round - 1}
+          </div>
+          <button onClick={playAgain}>Play Again</button>
+        </React.Fragment>
       )}
-      <div style={{ color: 'white' }}>Round: {round}</div>
-      <div style={{ color: 'white' }}>
-        Score: {score} / {round - 1}
-      </div>
-      {selection && !isFinished && <button onClick={handleNext}>Next</button>}
-    </React.Fragment>
-  ) : (
-    <>
-      <div style={{ color: 'white' }}>
-        FINSIHED: Score: {score} / {round - 1}
-      </div>
-      <button onClick={playAgain}>Play Again</button>
-    </>
+    </QuizContainer>
   );
 };
 

@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import Geonames from 'geonames.js';
 import { Point } from 'react-simple-maps';
+import styled from 'styled-components';
 
 import CT from './CT';
 import Quiz from './Quiz';
@@ -64,6 +65,13 @@ const WIKI_LENGTH = 3;
 function getRandomInt(max: number): number {
   return Math.floor(Math.random() * Math.floor(max));
 }
+
+const FlexContainer = styled.div`
+  margin: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const App: FunctionComponent = () => {
   const [finalSelection, setFinalSelection] = useState<number>(0);
@@ -129,7 +137,7 @@ const App: FunctionComponent = () => {
   }
 
   return (
-    <React.Fragment>
+    <FlexContainer>
       <Quiz
         appState={state}
         selection={selection}
@@ -146,7 +154,7 @@ const App: FunctionComponent = () => {
         selectedTowns={selectedTowns}
         finalSelection={finalSelection}
       />
-    </React.Fragment>
+    </FlexContainer>
   );
 };
 

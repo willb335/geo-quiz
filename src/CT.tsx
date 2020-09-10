@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { ComposableMap, Geographies, Annotation } from 'react-simple-maps';
 import { geoCentroid } from 'd3-geo';
 
@@ -23,8 +23,6 @@ const CT: FunctionComponent<CTProps> = ({
   selectedTowns,
   finalSelection,
 }) => {
-  // const [finalSelection] = useState(getRandomInt(SELECTED_TOWNS_LENGTH));
-
   return (
     <ComposableMap
       projection="geoAlbersUsa"
