@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useState, useEffect, Dispatch } from 'react';
-import { CurrentWiki, Action } from './App';
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import { CurrentWiki } from './App';
 import { Dots } from '@zendeskgarden/react-loaders';
 import { Button } from '@zendeskgarden/react-buttons';
 import styled from 'styled-components';
@@ -23,7 +23,7 @@ const ROUNDS = 3;
 
 const QuizContainer = styled.div`
   display: block;
-  min-height: 22vh;
+  min-height: 30vh;
   margin: 0 16vw 0 16vw;
 
   @media (max-width: 500px) {
@@ -31,7 +31,7 @@ const QuizContainer = styled.div`
   }
 `;
 
-const Round = styled.div`
+const Round = styled.h5`
   font-weight: bold;
   margin: 10px 0 10px 0;
 `;
