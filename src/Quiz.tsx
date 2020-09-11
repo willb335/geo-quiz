@@ -38,8 +38,6 @@ const Round = styled.h5`
 
 const Score = styled(Round)``;
 
-const Finished = styled(Round)``;
-
 const PleaseSelect = styled(Round)``;
 
 const Quiz: FunctionComponent<QuizProps> = ({
@@ -66,17 +64,20 @@ const Quiz: FunctionComponent<QuizProps> = ({
     }
   }, [finalSelection, selectedTowns, selection]);
 
-  function handleNext(): void {
-    if (round === ROUNDS) {
+  useEffect(() => {
+    if (attempts === ROUNDS) {
       setIsFinished(true);
-      return;
     }
+  }, [attempts]);
+
+  function handleNext(): void {
     setRound((prev) => prev + 1);
     resetRound();
   }
 
   function playAgain(): void {
     setScore(0);
+    setAttempts(0);
     setRound(1);
     setIsFinished(false);
     resetRound();
@@ -109,11 +110,18 @@ const Quiz: FunctionComponent<QuizProps> = ({
             </div>
             <Round>Round: {round}</Round>
             <Score>
-              Score: {score} / {attempts}
+              {isFinished
+                ? `Final Score: ${score} / ${attempts} `
+                : `Score: ${score} / ${attempts}`}
             </Score>
-            <PleaseSelect>Please select a town</PleaseSelect>
-            <Button disabled={selection === undefined} onClick={handleNext}>
-              Next
+            {selection === undefined && (
+              <PleaseSelect>Please select a town</PleaseSelect>
+            )}
+            <Button
+              disabled={selection === undefined}
+              onClick={isFinished ? playAgain : handleNext}
+            >
+              {isFinished ? `Play Again` : `Next`}
             </Button>
           </>
         );
@@ -124,16 +132,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
 
   return (
     <QuizContainer>
-      {isFinished ? (
-        <React.Fragment>
-          <Finished>
-            FINISHED: Score: {score} / {round}
-          </Finished>
-          <Button onClick={playAgain}>Play Again</Button>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>{display(appState)}</React.Fragment>
-      )}
+      <React.Fragment>{display(appState)}</React.Fragment>
     </QuizContainer>
   );
 };
