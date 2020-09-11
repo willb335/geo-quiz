@@ -27,6 +27,10 @@ body {
   background-color: white;
 }
 
+.rotated {
+  transform: rotate(11deg); /* Equal to rotateZ(45deg) */
+}
+
 /**
  * Render the `main` element consistently in IE.
  */

@@ -70,7 +70,7 @@ function getRandomInt(max: number): number {
 }
 
 const FlexContainer = styled.div`
-  margin: 2%;
+  margin: 4%;
   display: flex;
   flex-direction: column;
   align-items: center;

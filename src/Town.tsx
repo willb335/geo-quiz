@@ -109,7 +109,7 @@ const Town: FunctionComponent<TownProps> = ({
             r={0.2}
             fill={markerFill}
             stroke="#fff"
-            strokeWidth={0.003}
+            strokeWidth={0.012}
           />
         )}
       </Marker>

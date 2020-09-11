@@ -22,6 +22,7 @@ const CT: FunctionComponent<CTProps> = ({
 }) => {
   return (
     <ComposableMap
+      className="rotated"
       projection="geoAlbersUsa"
       projectionConfig={{ scale: 820 }}
       viewBox="634 219 36 20"
