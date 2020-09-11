@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, Dispatch } from 'react';
+import React, { FunctionComponent, useState, useEffect, Dispatch } from 'react';
 import { CurrentWiki, Action } from './App';
 import { Dots } from '@zendeskgarden/react-loaders';
 import { Button } from '@zendeskgarden/react-buttons';
@@ -17,7 +17,6 @@ interface QuizProps {
   finalSelection: number;
   finalWiki: number;
   resetRound: Function;
-  dispatch: Dispatch<Action>;
 }
 
 const ROUNDS = 3;
@@ -50,33 +49,30 @@ const Quiz: FunctionComponent<QuizProps> = ({
   finalSelection,
   finalWiki,
   resetRound,
-  dispatch,
 }) => {
   const [score, setScore] = useState(0);
   const [round, setRound] = useState(1);
+  const [attempts, setAttempts] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+
+  useEffect(() => {
+    if (selection && selection === selectedTowns[finalSelection]) {
+      setScore((prev) => prev + 1);
+      setAttempts((prev) => prev + 1);
+    }
+
+    if (selection && selection !== selectedTowns[finalSelection]) {
+      setAttempts((prev) => prev + 1);
+    }
+  }, [finalSelection, selectedTowns, selection]);
 
   function handleNext(): void {
     if (round === ROUNDS) {
       setIsFinished(true);
-      if (selection === selectedTowns[finalSelection]) {
-        setScore((prev) => prev + 1);
-        setRound((prev) => prev + 1);
-      } else {
-        setRound((prev) => prev + 1);
-      }
       return;
     }
-    if (selection === selectedTowns[finalSelection]) {
-      setScore((prev) => prev + 1);
-      setRound((prev) => prev + 1);
-      resetRound();
-      dispatch({ type: 'empty' });
-    } else {
-      setRound((prev) => prev + 1);
-      resetRound();
-      dispatch({ type: 'empty' });
-    }
+    setRound((prev) => prev + 1);
+    resetRound();
   }
 
   function playAgain(): void {
@@ -84,7 +80,6 @@ const Quiz: FunctionComponent<QuizProps> = ({
     setRound(1);
     setIsFinished(false);
     resetRound();
-    dispatch({ type: 'empty' });
   }
 
   function display(appState: AppState): JSX.Element | undefined {
@@ -114,7 +109,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
             </div>
             <Round>Round: {round}</Round>
             <Score>
-              Score: {score} / {round - 1}
+              Score: {score} / {attempts}
             </Score>
             <PleaseSelect>Please select a town</PleaseSelect>
             <Button disabled={selection === undefined} onClick={handleNext}>
@@ -132,7 +127,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
       {isFinished ? (
         <React.Fragment>
           <Finished>
-            FINISHED: Score: {score} / {round - 1}
+            FINISHED: Score: {score} / {round}
           </Finished>
           <Button onClick={playAgain}>Play Again</Button>
         </React.Fragment>

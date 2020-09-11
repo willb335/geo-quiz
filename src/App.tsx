@@ -95,12 +95,12 @@ const App: FunctionComponent = () => {
       if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
     }
     setSelectedTowns(selectedTowns);
+    dispatch({ type: 'empty' });
   }
 
   async function findWikipedia(centroid: Point): Promise<undefined | string> {
     try {
       if (state.status === 'empty') {
-        console.log('looking for wiki');
         dispatch({ type: 'request' });
 
         const response: Response = await fetch(
@@ -142,7 +142,6 @@ const App: FunctionComponent = () => {
         finalSelection={finalSelection}
         finalWiki={finalWiki}
         resetRound={resetRound}
-        dispatch={dispatch}
       />
       <CT
         findWikipedia={findWikipedia}
