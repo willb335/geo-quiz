@@ -109,7 +109,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
       )}
       {isFinished && (
         <h4 style={{ marginLeft: 10 }}>
-          Score: {score} / {round}
+          Final Score: {score} / {round}
         </h4>
       )}
     </FlexContainer>
