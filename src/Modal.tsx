@@ -14,15 +14,12 @@ import { AppState } from './Quiz';
 
 interface ModalProps {
   appState: AppState;
-  selection: number | undefined;
   finalWiki: number;
   setIsModalVisible: Function;
   round: number;
   score: number;
   attempts: number;
   isFinished: boolean;
-  playAgain: Function;
-  handleNext: Function;
 }
 
 const Round = styled.h5`
@@ -30,27 +27,25 @@ const Round = styled.h5`
   margin: 10px 0 10px 0;
 `;
 
-const Score = styled(Round)``;
+const StyledModal = styled(ZenGardenModal)`
+  @media (max-width: 500px) {
+    width: 90vw;
+  }
+`;
 
-const PleaseSelect = styled(Round)``;
+const Score = styled(Round)``;
 
 const Modal: FunctionComponent<ModalProps> = ({
   appState,
-  selection,
   finalWiki,
   setIsModalVisible,
   round,
   score,
   attempts,
   isFinished,
-  playAgain,
-  handleNext,
 }) => {
   return (
-    <ZenGardenModal
-      onClose={() => setIsModalVisible(false)}
-      // style={{ width: state.width, paddingBottom: DEFAULT_THEME.space.md }}
-    >
+    <StyledModal onClose={() => setIsModalVisible(false)}>
       <Header>
         {appState.currentWikis && appState.currentWikis[finalWiki].title}
       </Header>
@@ -78,22 +73,18 @@ const Modal: FunctionComponent<ModalProps> = ({
             ? `Final Score: ${score} / ${attempts} `
             : `Score: ${score} / ${attempts}`}
         </Score>
-        {selection === undefined && (
-          <PleaseSelect>Please select a town</PleaseSelect>
-        )}
       </Body>
       <Footer>
         <FooterItem>
-          <Button
-            disabled={selection === undefined}
-            onClick={isFinished ? () => playAgain() : () => handleNext()}
-          >
-            {isFinished ? `Play Again` : `Next`}
+          <Button onClick={() => setIsModalVisible(false)}>
+            {`Find ${
+              appState.currentWikis && appState.currentWikis[finalWiki].title
+            }`}
           </Button>
         </FooterItem>
       </Footer>
       <Close aria-label="Close modal" />
-    </ZenGardenModal>
+    </StyledModal>
   );
 };
 

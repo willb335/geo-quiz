@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { CurrentWiki } from './App';
-import { Dots } from '@zendeskgarden/react-loaders';
 import styled from 'styled-components';
-
+import { Dots } from '@zendeskgarden/react-loaders';
 import Modal from './Modal';
+import { Button } from '@zendeskgarden/react-buttons';
 
 export interface AppState {
   status: string;
@@ -20,16 +20,16 @@ interface QuizProps {
   resetRound: Function;
 }
 
-const ROUNDS = 3;
+const ROUNDS = 2;
 
-const QuizContainer = styled.div`
-  display: block;
-  /* min-height: 30vh; */
-  margin: 0 16vw 0 16vw;
+const StyledButton = styled(Button)`
+  margin: 10px;
+`;
 
-  @media (max-width: 500px) {
-    margin: 0;
-  }
+const FlexContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  min-height: 50px;
 `;
 
 const Quiz: FunctionComponent<QuizProps> = ({
@@ -66,6 +66,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
   function handleNext(): void {
     setRound((prev) => prev + 1);
     resetRound();
+    setIsModalVisible(true);
   }
 
   function playAgain(): void {
@@ -74,36 +75,43 @@ const Quiz: FunctionComponent<QuizProps> = ({
     setRound(1);
     setIsFinished(false);
     resetRound();
-  }
-
-  function display(): JSX.Element | null | undefined {
-    switch (appState.status) {
-      case 'loading':
-        return <Dots size={50} />;
-      case 'success':
-        return isModalVisible ? (
-          <Modal
-            appState={appState}
-            selection={selection}
-            finalWiki={finalWiki}
-            setIsModalVisible={setIsModalVisible}
-            round={round}
-            score={score}
-            attempts={attempts}
-            isFinished={isFinished}
-            playAgain={playAgain}
-            handleNext={handleNext}
-          />
-        ) : null;
-      case 'error':
-        return <span>Error: {appState.error}</span>;
-    }
+    setIsModalVisible(true);
   }
 
   return (
-    <QuizContainer>
-      <React.Fragment>{display()}</React.Fragment>
-    </QuizContainer>
+    <FlexContainer>
+      {appState.status === 'loading' && <Dots size={100} />}
+
+      {isModalVisible && appState.status === 'success' ? (
+        <Modal
+          appState={appState}
+          finalWiki={finalWiki}
+          setIsModalVisible={setIsModalVisible}
+          round={round}
+          score={score}
+          attempts={attempts}
+          isFinished={isFinished}
+        />
+      ) : null}
+      {appState.status === 'success' && (
+        <FlexContainer>
+          <StyledButton
+            disabled={selection === undefined}
+            onClick={isFinished ? playAgain : handleNext}
+          >
+            {isFinished ? `Play Again` : `Next`}
+          </StyledButton>
+          <StyledButton onClick={() => setIsModalVisible(true)}>
+            {`Open Description`}
+          </StyledButton>
+          {isFinished && (
+            <h4 style={{ margin: 10, alignSelf: 'center' }}>
+              Score: {score} / {round}
+            </h4>
+          )}
+        </FlexContainer>
+      )}
+    </FlexContainer>
   );
 };
 

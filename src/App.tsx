@@ -68,8 +68,7 @@ const FlexContainer = styled.div`
   align-items: center;
 
   @media (max-width: 500px) {
-    justify-content: space-around;
-    height: 100vh;
+    margin: 2%;
   }
 `;
 
