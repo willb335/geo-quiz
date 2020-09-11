@@ -70,14 +70,16 @@ function getRandomInt(max: number): number {
 }
 
 const FlexContainer = styled.div`
-  margin: 5%;
+  margin: 2%;
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
 
-  @media (max-width: 500px) {
-    margin: 2%;
-  }
+const PinMap = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 60px;
 `;
 
 const App: FunctionComponent = () => {
@@ -150,13 +152,15 @@ const App: FunctionComponent = () => {
         finalWiki={finalWiki}
         resetRound={resetRound}
       />
-      <CT
-        findWikipedia={findWikipedia}
-        handleMarkerClick={handleMarkerClick}
-        selection={selection}
-        selectedTowns={selectedTowns}
-        finalSelection={finalSelection}
-      />
+      <PinMap>
+        <CT
+          findWikipedia={findWikipedia}
+          handleMarkerClick={handleMarkerClick}
+          selection={selection}
+          selectedTowns={selectedTowns}
+          finalSelection={finalSelection}
+        />
+      </PinMap>
     </FlexContainer>
   );
 };

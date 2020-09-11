@@ -13,9 +13,6 @@ interface CTProps {
   finalSelection: number;
 }
 
-const width = 800;
-const height = 600;
-
 const CT: FunctionComponent<CTProps> = ({
   findWikipedia,
   handleMarkerClick,
@@ -27,9 +24,7 @@ const CT: FunctionComponent<CTProps> = ({
     <ComposableMap
       projection="geoAlbersUsa"
       projectionConfig={{ scale: 820 }}
-      width={width}
-      height={height}
-      viewBox="634 219 36 36"
+      viewBox="634 219 36 20"
       xmlns="http://www.w3.org/2000/svg"
     >
       <Geographies geography={json.features}>
