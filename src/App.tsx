@@ -5,7 +5,6 @@ import React, {
   useReducer,
   SyntheticEvent,
 } from 'react';
-import Geonames from 'geonames.js';
 import { Point } from 'react-simple-maps';
 import styled from 'styled-components';
 
@@ -53,11 +52,7 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-const geonames = new Geonames({
-  username: 'willb335',
-  lan: 'en',
-  encoding: 'JSON',
-});
+const { REACT_APP_USERNAME } = process.env;
 
 const SELECTED_TOWNS_LENGTH = 5;
 const WIKI_LENGTH = 3;
@@ -100,6 +95,7 @@ const App: FunctionComponent = () => {
       if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
     }
     setSelectedTowns(selectedTowns);
+    dispatch({ type: 'empty' });
   }
 
   async function findWikipedia(centroid: Point): Promise<undefined | string> {
@@ -107,12 +103,14 @@ const App: FunctionComponent = () => {
       if (state.status === 'empty') {
         dispatch({ type: 'request' });
 
+        const response: Response = await fetch(
+          `http://api.geonames.org/findNearbyWikipediaJSON?formatted=true&lat=${centroid[1]}&lng=${centroid[0]}&username=${REACT_APP_USERNAME}&style=full`
+        );
+
         const wiki: {
           [geonames: string]: CurrentWiki[];
-        } = await geonames.findNearbyWikipedia({
-          lat: centroid[1],
-          lng: centroid[0],
-        });
+        } = await response.json();
+
         dispatch({ type: 'success', results: wiki.geonames });
       }
 
@@ -144,7 +142,6 @@ const App: FunctionComponent = () => {
         finalSelection={finalSelection}
         finalWiki={finalWiki}
         resetRound={resetRound}
-        dispatch={dispatch}
       />
       <CT
         findWikipedia={findWikipedia}

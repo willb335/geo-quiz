@@ -4,8 +4,19 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { ThemeProvider, DEFAULT_THEME } from '@zendeskgarden/react-theming';
+import { css } from 'styled-components';
 
-const customTheme = { colors: { primaryHue: 'black' } };
+const customTheme = {
+  components: {
+    'buttons.button': css`
+      && {
+        color: black;
+        border-color: ${({ disabled }: { disabled: boolean }) =>
+          disabled === true ? 'none' : 'black'};
+      }
+    `,
+  },
+};
 
 ReactDOM.render(
   <React.StrictMode>

@@ -30,7 +30,7 @@ const Town: FunctionComponent<TownProps> = ({
   handleMarkerClick,
   selection,
 }) => {
-  const isSelected = selectedTowns.includes(index);
+  const isSelected: boolean = selectedTowns.includes(index);
 
   useEffect((): void => {
     if (index === selectedTowns[finalSelection]) {
@@ -104,7 +104,13 @@ const Town: FunctionComponent<TownProps> = ({
         onClick={(e) => handleMarkerClick(e, selectedTowns, index)}
       >
         {isSelected && (
-          <circle r={0.2} fill={markerFill} stroke="#fff" strokeWidth={0.003} />
+          <circle
+            data-testid="marker"
+            r={0.2}
+            fill={markerFill}
+            stroke="#fff"
+            strokeWidth={0.003}
+          />
         )}
       </Marker>
     </React.Fragment>
@@ -112,7 +118,7 @@ const Town: FunctionComponent<TownProps> = ({
 };
 
 const comparator = (prevProps: TownProps, nextProps: TownProps): boolean => {
-  const isSelected = nextProps.selectedTowns.includes(nextProps.index);
+  const isSelected: boolean = nextProps.selectedTowns.includes(nextProps.index);
 
   if (prevProps.selectedTowns !== nextProps.selectedTowns) return false;
 

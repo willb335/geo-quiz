@@ -29,7 +29,7 @@ const CT: FunctionComponent<CTProps> = ({
       projectionConfig={{ scale: 820 }}
       width={width}
       height={height}
-      viewBox="638 219 28 28"
+      viewBox="634 219 36 36"
       xmlns="http://www.w3.org/2000/svg"
     >
       <Geographies geography={json.features}>
@@ -66,16 +66,17 @@ const CT: FunctionComponent<CTProps> = ({
                     dx={-1}
                     dy={-0.3}
                     connectorProps={{
-                      stroke: 'gold',
+                      stroke: '#CFB53B',
                       strokeWidth: 0.02,
                       strokeLinecap: 'round',
                     }}
                   >
                     <text
                       y={-0.11}
-                      fontSize={0.4}
+                      fontSize={0.5}
+                      fontStyle="bold"
                       textAnchor="middle"
-                      style={{ fill: 'gold' }}
+                      style={{ fill: '#CFB53B' }}
                       onClick={() => console.log(geo.properties.town)}
                     >
                       {geo.properties.town}
