@@ -56,6 +56,7 @@ const { REACT_APP_USERNAME } = process.env;
 
 const SELECTED_TOWNS_LENGTH = 5;
 const WIKI_LENGTH = 3;
+const TOTAL_TOWNS = 168;
 
 function getRandomInt(max: number): number {
   return Math.floor(Math.random() * Math.floor(max));
@@ -90,7 +91,7 @@ const App: FunctionComponent = () => {
 
     const selectedTowns: number[] = [];
     while (selectedTowns.length < SELECTED_TOWNS_LENGTH) {
-      const r = Math.floor(Math.random() * 168) + 1;
+      const r = Math.floor(Math.random() * TOTAL_TOWNS) + 1;
       if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
     }
     setSelectedTowns(selectedTowns);
