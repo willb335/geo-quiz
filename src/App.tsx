@@ -104,7 +104,7 @@ const App: FunctionComponent = () => {
         dispatch({ type: 'request' });
 
         const response: Response = await fetch(
-          `http://api.geonames.org/findNearbyWikipediaJSON?formatted=true&lat=${centroid[1]}&lng=${centroid[0]}&username=${REACT_APP_USERNAME}&style=full`
+          `https://secure.geonames.org/findNearbyWikipediaJSON?formatted=true&lat=${centroid[1]}&lng=${centroid[0]}&username=${REACT_APP_USERNAME}&style=full`
         );
 
         const wiki: {
