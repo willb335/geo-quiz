@@ -31,7 +31,8 @@ const StyledButton = styled(Button)`
 const FlexContainer = styled.div`
   display: flex;
   justify-content: center;
-  min-height: 100px;
+  /* min-height: 75px; */
+  z-index: 5;
 `;
 
 const Quiz: FunctionComponent<QuizProps> = ({
@@ -109,7 +110,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
       )}
       {isFinished && (
         <h4 style={{ marginLeft: 10 }}>
-          Score: {score} / {round}
+          Final Score: {score} / {round}
         </h4>
       )}
     </FlexContainer>
