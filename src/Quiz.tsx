@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useState, useEffect, Dispatch } from 'react';
-import { CurrentWiki, Action } from './App';
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import { CurrentWiki } from './App';
 import { Dots } from '@zendeskgarden/react-loaders';
 import { Button } from '@zendeskgarden/react-buttons';
 import styled from 'styled-components';
