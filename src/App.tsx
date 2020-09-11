@@ -11,6 +11,13 @@ import styled from 'styled-components';
 import CT from './CT';
 import Quiz from './Quiz';
 
+export enum Status {
+  empty = 'empty',
+  loading = 'loading',
+  success = 'success',
+  error = 'error',
+}
+
 export interface CurrentWiki {
   countryCode: string;
   distance: number;
@@ -100,7 +107,7 @@ const App: FunctionComponent = () => {
 
   async function findWikipedia(centroid: Point): Promise<undefined | string> {
     try {
-      if (state.status === 'empty') {
+      if (state.status === Status.empty) {
         dispatch({ type: 'request' });
 
         const response: Response = await fetch(

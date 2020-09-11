@@ -5,6 +5,8 @@ import { Dots } from '@zendeskgarden/react-loaders';
 import Modal from './Modal';
 import { Button } from '@zendeskgarden/react-buttons';
 
+import { Status } from './App';
+
 export interface AppState {
   status: string;
   error?: string;
@@ -80,8 +82,8 @@ const Quiz: FunctionComponent<QuizProps> = ({
 
   return (
     <FlexContainer>
-      {appState.status === 'loading' && <Dots size={100} />}
-      {isModalVisible && appState.status === 'success' ? (
+      {appState.status === Status.loading && <Dots size={100} />}
+      {isModalVisible && appState.status === Status.success ? (
         <Modal
           appState={appState}
           finalWiki={finalWiki}
@@ -92,7 +94,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
           isFinished={isFinished}
         />
       ) : null}
-      {appState.status === 'success' && (
+      {appState.status === Status.success && (
         <FlexContainer>
           <StyledButton
             disabled={selection === undefined}
