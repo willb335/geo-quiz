@@ -19,7 +19,7 @@ interface QuizProps {
   resetRound: Function;
 }
 
-const ROUNDS = 3;
+const ROUNDS = 2;
 
 const QuizContainer = styled.div`
   display: block;
@@ -37,8 +37,6 @@ const Round = styled.h5`
 `;
 
 const Score = styled(Round)``;
-
-const Finished = styled(Round)``;
 
 const PleaseSelect = styled(Round)``;
 
@@ -116,7 +114,9 @@ const Quiz: FunctionComponent<QuizProps> = ({
                 ? `Final Score: ${score} / ${attempts} `
                 : `Score: ${score} / ${attempts}`}
             </Score>
-            <PleaseSelect>Please select a town</PleaseSelect>
+            {selection === undefined && (
+              <PleaseSelect>Please select a town</PleaseSelect>
+            )}
             <Button
               disabled={selection === undefined}
               onClick={isFinished ? playAgain : handleNext}
