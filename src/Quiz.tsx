@@ -1,10 +1,11 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { CurrentWiki } from './App';
 import { Dots } from '@zendeskgarden/react-loaders';
-import { Button } from '@zendeskgarden/react-buttons';
 import styled from 'styled-components';
 
-interface AppState {
+import Modal from './Modal';
+
+export interface AppState {
   status: string;
   error?: string;
   currentWikis?: CurrentWiki[];
@@ -23,22 +24,13 @@ const ROUNDS = 3;
 
 const QuizContainer = styled.div`
   display: block;
-  min-height: 30vh;
+  /* min-height: 30vh; */
   margin: 0 16vw 0 16vw;
 
   @media (max-width: 500px) {
     margin: 0;
   }
 `;
-
-const Round = styled.h5`
-  font-weight: bold;
-  margin: 10px 0 10px 0;
-`;
-
-const Score = styled(Round)``;
-
-const PleaseSelect = styled(Round)``;
 
 const Quiz: FunctionComponent<QuizProps> = ({
   appState,
@@ -52,6 +44,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
   const [round, setRound] = useState(1);
   const [attempts, setAttempts] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(true);
 
   useEffect(() => {
     if (selection && selection === selectedTowns[finalSelection]) {
@@ -83,48 +76,25 @@ const Quiz: FunctionComponent<QuizProps> = ({
     resetRound();
   }
 
-  function display(appState: AppState): JSX.Element | undefined {
+  function display(): JSX.Element | null | undefined {
     switch (appState.status) {
       case 'loading':
         return <Dots size={50} />;
       case 'success':
-        return (
-          <>
-            <div>
-              {appState.currentWikis &&
-                appState.currentWikis[finalWiki].summary}{' '}
-              {
-                <span>
-                  <a
-                    href={`https://${
-                      appState.currentWikis &&
-                      appState.currentWikis[finalWiki].wikipediaUrl
-                    }`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Wiki
-                  </a>
-                </span>
-              }
-            </div>
-            <Round>Round: {round}</Round>
-            <Score>
-              {isFinished
-                ? `Final Score: ${score} / ${attempts} `
-                : `Score: ${score} / ${attempts}`}
-            </Score>
-            {selection === undefined && (
-              <PleaseSelect>Please select a town</PleaseSelect>
-            )}
-            <Button
-              disabled={selection === undefined}
-              onClick={isFinished ? playAgain : handleNext}
-            >
-              {isFinished ? `Play Again` : `Next`}
-            </Button>
-          </>
-        );
+        return isModalVisible ? (
+          <Modal
+            appState={appState}
+            selection={selection}
+            finalWiki={finalWiki}
+            setIsModalVisible={setIsModalVisible}
+            round={round}
+            score={score}
+            attempts={attempts}
+            isFinished={isFinished}
+            playAgain={playAgain}
+            handleNext={handleNext}
+          />
+        ) : null;
       case 'error':
         return <span>Error: {appState.error}</span>;
     }
@@ -132,7 +102,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
 
   return (
     <QuizContainer>
-      <React.Fragment>{display(appState)}</React.Fragment>
+      <React.Fragment>{display()}</React.Fragment>
     </QuizContainer>
   );
 };
