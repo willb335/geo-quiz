@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "8068a03d669a641bd2c8651961541bd4",
+    "revision": "f35276200396bab16276ad0a0939f044",
     "url": "/geo-quiz/index.html"
   },
   {
-    "revision": "b8a225c425d914598222",
+    "revision": "78c0fca42c0e8a36300e",
     "url": "/geo-quiz/static/css/main.8f602a5f.chunk.css"
   },
   {
-    "revision": "786d06c725d8a971ff22",
-    "url": "/geo-quiz/static/js/2.31ced11b.chunk.js"
+    "revision": "f8a7e1a4d0c4e4d2dedf",
+    "url": "/geo-quiz/static/js/2.1d66260d.chunk.js"
   },
   {
     "revision": "3453b8997016469371284a28c0e873e2",
-    "url": "/geo-quiz/static/js/2.31ced11b.chunk.js.LICENSE.txt"
+    "url": "/geo-quiz/static/js/2.1d66260d.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "b8a225c425d914598222",
-    "url": "/geo-quiz/static/js/main.03b30e13.chunk.js"
+    "revision": "78c0fca42c0e8a36300e",
+    "url": "/geo-quiz/static/js/main.668b0144.chunk.js"
   },
   {
     "revision": "12f9f178b673d50ecd3d",
