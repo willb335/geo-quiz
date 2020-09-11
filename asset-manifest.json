@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/geo-quiz/static/css/main.8f602a5f.chunk.css",
-    "main.js": "/geo-quiz/static/js/main.7243e5be.chunk.js",
-    "main.js.map": "/geo-quiz/static/js/main.7243e5be.chunk.js.map",
+    "main.js": "/geo-quiz/static/js/main.03b30e13.chunk.js",
+    "main.js.map": "/geo-quiz/static/js/main.03b30e13.chunk.js.map",
     "runtime-main.js": "/geo-quiz/static/js/runtime-main.2e77119e.js",
     "runtime-main.js.map": "/geo-quiz/static/js/runtime-main.2e77119e.js.map",
-    "static/js/2.7ae2358b.chunk.js": "/geo-quiz/static/js/2.7ae2358b.chunk.js",
-    "static/js/2.7ae2358b.chunk.js.map": "/geo-quiz/static/js/2.7ae2358b.chunk.js.map",
+    "static/js/2.31ced11b.chunk.js": "/geo-quiz/static/js/2.31ced11b.chunk.js",
+    "static/js/2.31ced11b.chunk.js.map": "/geo-quiz/static/js/2.31ced11b.chunk.js.map",
     "index.html": "/geo-quiz/index.html",
-    "precache-manifest.268701d9217fc33c10cf2220fc7dc09d.js": "/geo-quiz/precache-manifest.268701d9217fc33c10cf2220fc7dc09d.js",
+    "precache-manifest.ec0ef03f31c08e41b389db46f13a1b80.js": "/geo-quiz/precache-manifest.ec0ef03f31c08e41b389db46f13a1b80.js",
     "service-worker.js": "/geo-quiz/service-worker.js",
     "static/css/main.8f602a5f.chunk.css.map": "/geo-quiz/static/css/main.8f602a5f.chunk.css.map",
-    "static/js/2.7ae2358b.chunk.js.LICENSE.txt": "/geo-quiz/static/js/2.7ae2358b.chunk.js.LICENSE.txt"
+    "static/js/2.31ced11b.chunk.js.LICENSE.txt": "/geo-quiz/static/js/2.31ced11b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.2e77119e.js",
-    "static/js/2.7ae2358b.chunk.js",
+    "static/js/2.31ced11b.chunk.js",
     "static/css/main.8f602a5f.chunk.css",
-    "static/js/main.7243e5be.chunk.js"
+    "static/js/main.03b30e13.chunk.js"
   ]
 }
