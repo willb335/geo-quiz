@@ -22,7 +22,7 @@ interface QuizProps {
   resetRound: Function;
 }
 
-const ROUNDS = 2;
+const ROUNDS = 3;
 
 const StyledButton = styled(Button)`
   margin: 10px;

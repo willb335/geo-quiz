@@ -27,13 +27,13 @@ const Round = styled.h5`
   margin: 10px 0 10px 0;
 `;
 
+const Score = styled(Round)``;
+
 const StyledModal = styled(ZenGardenModal)`
   @media (max-width: 500px) {
     width: 90vw;
   }
 `;
-
-const Score = styled(Round)``;
 
 const Modal: FunctionComponent<ModalProps> = ({
   appState,
