@@ -17,7 +17,7 @@ const props = {
         lang: 0,
         lat: 0,
         rank: 0,
-        title: '',
+        title: 'Hello',
         wikipediaUrl: '',
       },
     ],
@@ -27,28 +27,11 @@ const props = {
   finalSelection: 0,
   finalWiki: 0,
   resetRound: () => {},
-  dispatch: () => {},
 };
 
 test('finds wiki', () => {
   render(<Quiz {...props} />);
   const wiki = screen.queryByText(/Hello World/i);
 
-  expect(wiki).toHaveTextContent('Hello World');
-});
-
-test('finds rounds and score', () => {
-  render(<Quiz {...props} />);
-  const round = screen.queryByText(/Round/i);
-  const score = screen.queryByText(/Score/i);
-
-  expect(round).toHaveTextContent('Round: 1');
-  expect(score).toHaveTextContent('Score: 0 / 0');
-});
-
-test('finds "Please select a town"', () => {
-  render(<Quiz {...props} />);
-  const please = screen.queryByText(/Please/i);
-
-  expect(please).toHaveTextContent('Please select a town');
+  expect(wiki).toHaveTextContent('Hello World Wiki');
 });

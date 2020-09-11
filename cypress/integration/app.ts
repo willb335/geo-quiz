@@ -7,20 +7,22 @@ describe('Runs through the quiz', () => {
     cy.visit('/', { timeout: 10000 });
   });
 
-  it('Finds the "Please" text', () => {
-    cy.findByText(/Please/i).should('exist');
-  });
-
   Array.from(Array(ROUNDS)).forEach((_, i) => {
-    it('Clicks on a town with marker', () => {
+    it('Clicks the "Find" button', () => {
       cy.findByText(`Round: ${i + 1}`).should('be.visible');
 
-      cy.findAllByTestId('marker').first().click({ timeout: 500 });
+      cy.findByText(/Find/i).click();
     });
 
-    it('Clicks the next button', () => {
-      cy.findByText('Next').click({ timeout: 5000 });
+    it('Clicks on a town with marker', () => {
+      cy.findAllByTestId('marker').first().click({ timeout: 1000 });
     });
+
+    if (i !== ROUNDS - 1) {
+      it('Clicks the next button', () => {
+        cy.findByText('Next').click({ timeout: 1000 });
+      });
+    }
   });
 
   it('Clicks the play again button', () => {

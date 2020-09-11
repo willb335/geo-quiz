@@ -1,10 +1,13 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { CurrentWiki } from './App';
-import { Dots } from '@zendeskgarden/react-loaders';
-import { Button } from '@zendeskgarden/react-buttons';
 import styled from 'styled-components';
+import { Dots } from '@zendeskgarden/react-loaders';
+import Modal from './Modal';
+import { Button } from '@zendeskgarden/react-buttons';
 
-interface AppState {
+import { Status } from './App';
+
+export interface AppState {
   status: string;
   error?: string;
   currentWikis?: CurrentWiki[];
@@ -21,24 +24,15 @@ interface QuizProps {
 
 const ROUNDS = 3;
 
-const QuizContainer = styled.div`
-  display: block;
-  min-height: 30vh;
-  margin: 0 16vw 0 16vw;
-
-  @media (max-width: 500px) {
-    margin: 0;
-  }
+const StyledButton = styled(Button)`
+  margin: 10px;
 `;
 
-const Round = styled.h5`
-  font-weight: bold;
-  margin: 10px 0 10px 0;
+const FlexContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  min-height: 100px;
 `;
-
-const Score = styled(Round)``;
-
-const PleaseSelect = styled(Round)``;
 
 const Quiz: FunctionComponent<QuizProps> = ({
   appState,
@@ -52,6 +46,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
   const [round, setRound] = useState(1);
   const [attempts, setAttempts] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(true);
 
   useEffect(() => {
     if (selection && selection === selectedTowns[finalSelection]) {
@@ -73,6 +68,7 @@ const Quiz: FunctionComponent<QuizProps> = ({
   function handleNext(): void {
     setRound((prev) => prev + 1);
     resetRound();
+    setIsModalVisible(true);
   }
 
   function playAgain(): void {
@@ -81,59 +77,42 @@ const Quiz: FunctionComponent<QuizProps> = ({
     setRound(1);
     setIsFinished(false);
     resetRound();
-  }
-
-  function display(appState: AppState): JSX.Element | undefined {
-    switch (appState.status) {
-      case 'loading':
-        return <Dots size={50} />;
-      case 'success':
-        return (
-          <>
-            <div>
-              {appState.currentWikis &&
-                appState.currentWikis[finalWiki].summary}{' '}
-              {
-                <span>
-                  <a
-                    href={`https://${
-                      appState.currentWikis &&
-                      appState.currentWikis[finalWiki].wikipediaUrl
-                    }`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Wiki
-                  </a>
-                </span>
-              }
-            </div>
-            <Round>Round: {round}</Round>
-            <Score>
-              {isFinished
-                ? `Final Score: ${score} / ${attempts} `
-                : `Score: ${score} / ${attempts}`}
-            </Score>
-            {selection === undefined && (
-              <PleaseSelect>Please select a town</PleaseSelect>
-            )}
-            <Button
-              disabled={selection === undefined}
-              onClick={isFinished ? playAgain : handleNext}
-            >
-              {isFinished ? `Play Again` : `Next`}
-            </Button>
-          </>
-        );
-      case 'error':
-        return <span>Error: {appState.error}</span>;
-    }
+    setIsModalVisible(true);
   }
 
   return (
-    <QuizContainer>
-      <React.Fragment>{display(appState)}</React.Fragment>
-    </QuizContainer>
+    <FlexContainer>
+      {appState.status === Status.loading && <Dots size={100} />}
+      {isModalVisible && appState.status === Status.success ? (
+        <Modal
+          appState={appState}
+          finalWiki={finalWiki}
+          setIsModalVisible={setIsModalVisible}
+          round={round}
+          score={score}
+          attempts={attempts}
+          isFinished={isFinished}
+        />
+      ) : null}
+      {appState.status === Status.success && (
+        <FlexContainer>
+          <StyledButton
+            disabled={selection === undefined}
+            onClick={isFinished ? playAgain : handleNext}
+          >
+            {isFinished ? `Play Again` : `Next`}
+          </StyledButton>
+          <StyledButton onClick={() => setIsModalVisible(true)}>
+            {`Open Description`}
+          </StyledButton>
+        </FlexContainer>
+      )}
+      {isFinished && (
+        <h4 style={{ marginLeft: 10 }}>
+          Score: {score} / {round}
+        </h4>
+      )}
+    </FlexContainer>
   );
 };
 

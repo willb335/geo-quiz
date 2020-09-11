@@ -11,6 +11,13 @@ import styled from 'styled-components';
 import CT from './CT';
 import Quiz from './Quiz';
 
+export enum Status {
+  empty = 'empty',
+  loading = 'loading',
+  success = 'success',
+  error = 'error',
+}
+
 export interface CurrentWiki {
   countryCode: string;
   distance: number;
@@ -56,6 +63,7 @@ const { REACT_APP_USERNAME } = process.env;
 
 const SELECTED_TOWNS_LENGTH = 5;
 const WIKI_LENGTH = 3;
+const TOTAL_TOWNS = 168;
 
 function getRandomInt(max: number): number {
   return Math.floor(Math.random() * Math.floor(max));
@@ -68,8 +76,7 @@ const FlexContainer = styled.div`
   align-items: center;
 
   @media (max-width: 500px) {
-    justify-content: space-around;
-    height: 100vh;
+    margin: 2%;
   }
 `;
 
@@ -91,7 +98,7 @@ const App: FunctionComponent = () => {
 
     const selectedTowns: number[] = [];
     while (selectedTowns.length < SELECTED_TOWNS_LENGTH) {
-      const r = Math.floor(Math.random() * 168) + 1;
+      const r = Math.floor(Math.random() * TOTAL_TOWNS) + 1;
       if (selectedTowns.indexOf(r) === -1) selectedTowns.push(r);
     }
     setSelectedTowns(selectedTowns);
@@ -100,7 +107,7 @@ const App: FunctionComponent = () => {
 
   async function findWikipedia(centroid: Point): Promise<undefined | string> {
     try {
-      if (state.status === 'empty') {
+      if (state.status === Status.empty) {
         dispatch({ type: 'request' });
 
         const response: Response = await fetch(
