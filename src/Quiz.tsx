@@ -29,7 +29,7 @@ const StyledButton = styled(Button)`
 const FlexContainer = styled.div`
   display: flex;
   justify-content: center;
-  min-height: 50px;
+  min-height: 100px;
 `;
 
 const Quiz: FunctionComponent<QuizProps> = ({
@@ -81,7 +81,6 @@ const Quiz: FunctionComponent<QuizProps> = ({
   return (
     <FlexContainer>
       {appState.status === 'loading' && <Dots size={100} />}
-
       {isModalVisible && appState.status === 'success' ? (
         <Modal
           appState={appState}
@@ -104,12 +103,12 @@ const Quiz: FunctionComponent<QuizProps> = ({
           <StyledButton onClick={() => setIsModalVisible(true)}>
             {`Open Description`}
           </StyledButton>
-          {isFinished && (
-            <h4 style={{ margin: 10, alignSelf: 'center' }}>
-              Score: {score} / {round}
-            </h4>
-          )}
         </FlexContainer>
+      )}
+      {isFinished && (
+        <h4 style={{ marginLeft: 10 }}>
+          Score: {score} / {round}
+        </h4>
       )}
     </FlexContainer>
   );
