@@ -25,6 +25,11 @@ const ROUNDS = 3;
 const QuizContainer = styled.div`
   display: block;
   min-height: 22vh;
+  margin: 0 16vw 0 16vw;
+
+  @media (max-width: 500px) {
+    margin: 0;
+  }
 `;
 
 const Round = styled.div`
