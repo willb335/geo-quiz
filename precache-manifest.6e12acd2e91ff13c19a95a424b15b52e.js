@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b3424618f80e85b0eb7f082a248cea1c",
+    "revision": "377fa6aba7b573d7a8fae97cec92d3e7",
     "url": "/geo-quiz/index.html"
   },
   {
-    "revision": "e6ee1228173743fa7aae",
-    "url": "/geo-quiz/static/css/main.8f602a5f.chunk.css"
+    "revision": "6c68d73cee0a0f77da0b",
+    "url": "/geo-quiz/static/css/main.17bc2ca7.chunk.css"
   },
   {
     "revision": "c01505b17d9f0a8e2809",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/geo-quiz/static/js/2.872d4507.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e6ee1228173743fa7aae",
-    "url": "/geo-quiz/static/js/main.458a4bec.chunk.js"
+    "revision": "6c68d73cee0a0f77da0b",
+    "url": "/geo-quiz/static/js/main.00cb88e0.chunk.js"
   },
   {
     "revision": "12f9f178b673d50ecd3d",
