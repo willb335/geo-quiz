@@ -19,7 +19,7 @@ interface QuizProps {
   resetRound: Function;
 }
 
-const ROUNDS = 2;
+const ROUNDS = 3;
 
 const QuizContainer = styled.div`
   display: block;
