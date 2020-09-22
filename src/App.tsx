@@ -32,10 +32,10 @@ export interface CurrentWiki {
 }
 
 type State =
-  | { status: 'empty' }
-  | { status: 'loading' }
-  | { status: 'error'; error: string }
-  | { status: 'success'; currentWikis: CurrentWiki[] };
+  | { status: Status.empty }
+  | { status: Status.loading }
+  | { status: Status.error; error: string }
+  | { status: Status.success; currentWikis: CurrentWiki[] };
 
 export type Action =
   | { type: 'empty' }
@@ -46,15 +46,15 @@ export type Action =
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'empty':
-      return { status: 'empty' };
+      return { status: Status.empty };
     case 'request':
-      return { status: 'loading' };
+      return { status: Status.loading };
     case 'success':
-      return { status: 'success', currentWikis: action.results };
+      return { status: Status.success, currentWikis: action.results };
     case 'failure':
-      return { status: 'error', error: action.error };
+      return { status: Status.error, error: action.error };
     default: {
-      return { status: 'empty' };
+      return { status: Status.empty };
     }
   }
 }
@@ -87,7 +87,7 @@ const App: FunctionComponent = () => {
   const [finalWiki, setFinalWiki] = useState(0);
   const [selection, setSelection] = useState<number | undefined>(undefined);
   const [selectedTowns, setSelectedTowns] = useState<number[]>([]);
-  const [state, dispatch] = useReducer(reducer, { status: 'empty' });
+  const [state, dispatch] = useReducer(reducer, { status: Status.empty });
 
   useEffect(() => {
     resetRound();
